@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Category:Int, CustomStringConvertible {
+enum TagCategory:Int, CustomStringConvertible {
     case container = 1
     case animation
     case descriptive
@@ -42,49 +42,66 @@ enum Category:Int, CustomStringConvertible {
 
 class SVGTag {
     
+    var name:String
+    
+    init?(name:String) {
+        guard SVGTag.allTags[name] != nil else { return nil }
+        self.name = name
+    }
+    
+    var category:String
+    {
+        get {
+            if let t = SVGTag.allTags[name], let c = t["category"] as? TagCategory {
+                return c.description
+            } else {
+                return "unknown tag"
+            }
+        }
+    }
+    
     // all tags
-    //query by parameters and exentiosn
     static let allTags:[String:[String:Any]] = [
-        "a":["category": Category.container],
-        "altGlyph":["category": Category.textContent],
-        "altGlyphDef":["category":Category.textContent],
-        "altGlyphItem":["category":Category.textContent],
-        "animate":["category":Category.animation],
-        "animateColor":["category":Category.animation],
-        "animateMotion":["category":Category.animation],
-        "animateTransform":["category":Category.animation],
-        "circle":["category":Category.shape],
-//        "clipPath":["category":Category.shape],
-//        "color-profile":["category":Category.shape],
-//        "cursor":["category":Category.shape],
-        "defs":["category":Category.container],
-        "desc":["category":Category.descriptive],
-        "ellipse":["category":Category.shape],
-        "feBlend":["category":Category.filterPrimitive],
-        "feColorMatrix":["category":Category.filterPrimitive],
-        "feComponentTransfer":["category":Category.filterPrimitive],
-        "feComposite":["category":Category.filterPrimitive],
-        "feConvolveMatrix":["category":Category.filterPrimitive],
-        "feDiffuseLighting":["category":Category.filterPrimitive],
-        "feDisplacementMap":["category":Category.filterPrimitive],
-        "feDistantLight":["category":Category.filterPrimitive],
-        "feFlood":["category":Category.filterPrimitive],
-        "feFuncA":["category":Category.filterPrimitive],
-        "feFuncB":["category":Category.filterPrimitive],
-        "feFuncG":["category":Category.filterPrimitive],
-        "feFuncR":["category":Category.filterPrimitive],
-        "feGaussianBlur":["category":Category.filterPrimitive],
-        "feImage":["category":Category.filterPrimitive],
-        "feMerge":["category":Category.filterPrimitive],
-        "feMergeNode":["category":Category.filterPrimitive],
-        "feMorphology":["category":Category.filterPrimitive],
-        "feOffset":["category":Category.filterPrimitive],
-        "fePointLight":["category":Category.filterPrimitive],
-        "feSpecularLighting":["category":Category.filterPrimitive],
-        "feSpotLight":["category":Category.filterPrimitive],
-        "feTile":["category":Category.filterPrimitive],
-        "feTurbulence":["category":Category.filterPrimitive],
-        "filter":["category":Category.filterPrimitive],
+        "a":["category": TagCategory.container],
+        "altGlyph":["category": TagCategory.textContent],
+        "altGlyphDef":["category": TagCategory.textContent],
+        "altGlyphItem":["category": TagCategory.textContent],
+        "animate":["category":TagCategory.animation],
+        "animateColor":["category": TagCategory.animation],
+        "animateMotion":["category":TagCategory.animation],
+        "animateTransform":["category":TagCategory.animation],
+        "circle":["category":TagCategory.shape],
+//        "clipPath":[":TagCategory."::TagCategory.shape],
+//        "color-profile":[":TagCategory."::TagCategory.shape],
+//        "cursor":[":TagCategory."::TagCategory.shape],
+        "defs":["category":TagCategory.container],
+        "desc":["category":TagCategory.descriptive],
+        "ellipse":["category":TagCategory.shape],
+        "feBlend":["category":TagCategory.filterPrimitive],
+        "feColorMatrix":["category":TagCategory.filterPrimitive],
+        "feComponentTransfer":["category":TagCategory.filterPrimitive],
+        "feComposite":["category":TagCategory.filterPrimitive],
+        "feConvolveMatrix":["category":TagCategory.filterPrimitive],
+        "feDiffuseLighting":["category":TagCategory.filterPrimitive],
+        "feDisplacementMap":["category":TagCategory.filterPrimitive],
+        "feDistantLight":["category":TagCategory.filterPrimitive],
+        "feFlood":["category":TagCategory.filterPrimitive],
+        "feFuncA":["category":TagCategory.filterPrimitive],
+        "feFuncB":["category":TagCategory.filterPrimitive],
+        "feFuncG":["category":TagCategory.filterPrimitive],
+        "feFuncR":["category":TagCategory.filterPrimitive],
+        "feGaussianBlur":["category":TagCategory.filterPrimitive],
+        "feImage":["category":TagCategory.filterPrimitive],
+        "feMerge":["category":TagCategory.filterPrimitive],
+        "feMergeNode":["category":TagCategory.filterPrimitive],
+        "feMorphology":["category":TagCategory.filterPrimitive],
+        "feOffset":["category":TagCategory.filterPrimitive],
+        "fePointLight":["category":TagCategory.filterPrimitive],
+        "feSpecularLighting":["category":TagCategory.filterPrimitive],
+        "feSpotLight":["category":TagCategory.filterPrimitive],
+        "feTile":["category":TagCategory.filterPrimitive],
+        "feTurbulence":["category":TagCategory.filterPrimitive],
+        "filter":["category":TagCategory.filterPrimitive],
 //        "font":[],
 //        "font-face":[],
 //        "font-face-format":[],
@@ -92,39 +109,40 @@ class SVGTag {
 //        "font-face-src":[],
 //        "font-face-uri":[],
 //        "foreignObject":[],
-        "g":["category":Category.container],
-        "glyph":["category":Category.container],
+        "g":["category":TagCategory.container],
+        "glyph":["category":TagCategory.container],
 //        "glyphRef":[],
 //        "hkern":[],
 //        "image":[],
-        "line":["category":Category.shape],
-        "linearGradient":["category":Category.gradient],
-        "marker":["category":Category.container],
-        "mask":["category":Category.container],
-        "metadata":["category":Category.descriptive],
-        "missing-glyph":["category":Category.container],
+        "line":["category":TagCategory.shape],
+        "linearGradient":["category":TagCategory.gradient],
+        "marker":["category":TagCategory.container],
+        "mask":["category":TagCategory.container],
+        "metadata":["category":TagCategory.descriptive],
+        "missing-glyph":["category":TagCategory.container],
 //        "mpath":[],
-        "path":["category":Category.shape],
-        "pattern":["category":Category.container],
-        "polygon":["category":Category.shape],
-        "polyline":["category":Category.shape],
-        "radialGradient":["category":Category.gradient],
-        "rect":["category":Category.shape],
+        "path":["category":TagCategory.shape],
+        "pattern":["category":TagCategory.container],
+        "polygon":["category":TagCategory.shape],
+        "polyline":["category":TagCategory.shape],
+        "radialGradient":["category":TagCategory.gradient],
+        "rect":["category":TagCategory.shape],
 //        "script":[],
-        "set":["category":Category.animation],
+        "set":[":TagCategory.":TagCategory.animation],
 //        "stop":[],
 //        "style":[],
-        "svg":["category":Category.container],
-        "switch":["category":Category.container],
-        "symbol":["category":Category.container],
+        "svg":["category":TagCategory.container],
+        "switch":["category":TagCategory.container],
+        "symbol":["category":TagCategory.container],
 //        "text":[],
 //        "textPath":[],
-        "title":["category":Category.descriptive],
+        "title":["category":TagCategory.descriptive],
 //        "tref":[],
 //        "tspan":[],
 //        "use":[],
 //        "view":[],
 //        "vkern":[]
     ]
+    
     
 }

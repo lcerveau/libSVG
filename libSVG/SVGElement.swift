@@ -10,16 +10,14 @@ import Foundation
 import clibxml
 
 class SVGElement {
-    let tag:String
-    let type:String
-    let content:String
+    let tag:SVGTag
+    let content:String?
     let attributes:[String:Any]?
     
     //Move to a init? anc check tag
-    init(tag:String, attributes:[String:Any]?) {
+    init(tag:SVGTag, attributes:[String:Any]? = nil) {
         self.tag = tag
-        self.type = "lala"
-        self.attributes = (nil == attributes) ? [String:Any]() : attributes
-        self.attributes = (nil == attributes) ? [String:Any]() : attributes
+        self.attributes = (nil == attributes) ? [String:Any]() : attributes!
+        self.content = ""
     }
 }

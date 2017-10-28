@@ -1,5 +1,5 @@
 //
-//  Renderer.swift
+//  SVGRenderer.swift
 //  libSVG
 //
 //  Created by Laurent Cerveau on 04/14/2017.
@@ -7,3 +7,10 @@
 //
 
 import Foundation
+import CoreGraphics
+
+protocol SVGRenderer {
+    var identifier:String { get }
+    
+    func render(element:SVGElement, destination:SVGRenderDestination)
+}

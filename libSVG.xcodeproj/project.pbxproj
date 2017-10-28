@@ -7,9 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A56751E1E58A1E70006E4EA /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A56751D1E58A1E60006E4EA /* libxml2.2.tbd */; };
+		2A56751F1E58B74C0006E4EA /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A56751D1E58A1E60006E4EA /* libxml2.2.tbd */; };
+		2A5675211E58B93A0006E4EA /* SVGNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5675201E58B93A0006E4EA /* SVGNode.swift */; };
+		2A65F35C1EA0F7DD003D1BD2 /* SVGRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A65F35B1EA0F7DD003D1BD2 /* SVGRenderer.swift */; };
 		2A6FA3271DCB420900B62C82 /* libSVG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6FA31D1DCB420900B62C82 /* libSVG.framework */; };
-		2A6FA32C1DCB420900B62C82 /* libSVGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6FA32B1DCB420900B62C82 /* libSVGTests.swift */; };
+		2A6FA32C1DCB420900B62C82 /* libSVGLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6FA32B1DCB420900B62C82 /* libSVGLoadTests.swift */; };
 		2A6FA32E1DCB420900B62C82 /* libSVG.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A6FA3201DCB420900B62C82 /* libSVG.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2A6FA3381DCBBA7B00B62C82 /* SVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6FA3371DCBBA7B00B62C82 /* SVG.swift */; };
+		2A6FA3401DCBBBD400B62C82 /* Death.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2A6FA33A1DCBBBD400B62C82 /* Death.svg */; };
+		2A6FA3411DCBBBD400B62C82 /* Frankenstein.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2A6FA33B1DCBBBD400B62C82 /* Frankenstein.svg */; };
+		2A6FA3421DCBBBD400B62C82 /* Mummy.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2A6FA33C1DCBBBD400B62C82 /* Mummy.svg */; };
+		2A6FA3431DCBBBD400B62C82 /* Pumpkin.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2A6FA33D1DCBBBD400B62C82 /* Pumpkin.svg */; };
+		2A6FA3441DCBBBD400B62C82 /* Skull.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2A6FA33E1DCBBBD400B62C82 /* Skull.svg */; };
+		2A6FA3451DCBBBD400B62C82 /* Spider.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2A6FA33F1DCBBBD400B62C82 /* Spider.svg */; };
+		2A74F5781DFFDCCF00F0771E /* libSVGParseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F5771DFFDCCF00F0771E /* libSVGParseTests.swift */; };
+		2A74F57A1DFFDCF200F0771E /* libSVGViewPortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F5791DFFDCF200F0771E /* libSVGViewPortTests.swift */; };
+		2A74F57C1DFFDD2400F0771E /* libSVGShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F57B1DFFDD2400F0771E /* libSVGShapeTests.swift */; };
+		2A74F57E1DFFDD4500F0771E /* libSVGGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F57D1DFFDD4500F0771E /* libSVGGroupTests.swift */; };
+		2A74F5801DFFDD9500F0771E /* libSVGGradientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A74F57F1DFFDD9500F0771E /* libSVGGradientTests.swift */; };
+		2A7E8DB41E5A43E80050AEEC /* SVGElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7E8DB31E5A43E80050AEEC /* SVGElement.swift */; };
+		2A7E8DB61E5A55A50050AEEC /* SVGTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7E8DB51E5A55A50050AEEC /* SVGTag.swift */; };
+		2A7E8DB81E5A685B0050AEEC /* SVGCSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7E8DB71E5A685B0050AEEC /* SVGCSSParser.swift */; };
+		2AAEAFFD1EE490E400693572 /* SVGRendererDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEAFFC1EE490E400693572 /* SVGRendererDestination.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +43,32 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A56751D1E58A1E60006E4EA /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		2A5675201E58B93A0006E4EA /* SVGNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGNode.swift; sourceTree = "<group>"; };
+		2A65F35B1EA0F7DD003D1BD2 /* SVGRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRenderer.swift; sourceTree = "<group>"; };
 		2A6FA31D1DCB420900B62C82 /* libSVG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libSVG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A6FA3201DCB420900B62C82 /* libSVG.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libSVG.h; sourceTree = "<group>"; };
 		2A6FA3211DCB420900B62C82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A6FA3261DCB420900B62C82 /* libSVGTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libSVGTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A6FA32B1DCB420900B62C82 /* libSVGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libSVGTests.swift; sourceTree = "<group>"; };
+		2A6FA32B1DCB420900B62C82 /* libSVGLoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libSVGLoadTests.swift; sourceTree = "<group>"; };
 		2A6FA32D1DCB420900B62C82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A6FA3371DCBBA7B00B62C82 /* SVG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVG.swift; sourceTree = "<group>"; };
+		2A6FA33A1DCBBBD400B62C82 /* Death.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Death.svg; sourceTree = "<group>"; };
+		2A6FA33B1DCBBBD400B62C82 /* Frankenstein.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Frankenstein.svg; sourceTree = "<group>"; };
+		2A6FA33C1DCBBBD400B62C82 /* Mummy.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Mummy.svg; sourceTree = "<group>"; };
+		2A6FA33D1DCBBBD400B62C82 /* Pumpkin.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Pumpkin.svg; sourceTree = "<group>"; };
+		2A6FA33E1DCBBBD400B62C82 /* Skull.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Skull.svg; sourceTree = "<group>"; };
+		2A6FA33F1DCBBBD400B62C82 /* Spider.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Spider.svg; sourceTree = "<group>"; };
+		2A74F5771DFFDCCF00F0771E /* libSVGParseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = libSVGParseTests.swift; sourceTree = "<group>"; };
+		2A74F5791DFFDCF200F0771E /* libSVGViewPortTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = libSVGViewPortTests.swift; sourceTree = "<group>"; };
+		2A74F57B1DFFDD2400F0771E /* libSVGShapeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = libSVGShapeTests.swift; sourceTree = "<group>"; };
+		2A74F57D1DFFDD4500F0771E /* libSVGGroupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = libSVGGroupTests.swift; sourceTree = "<group>"; };
+		2A74F57F1DFFDD9500F0771E /* libSVGGradientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = libSVGGradientTests.swift; sourceTree = "<group>"; };
+		2A7E8DB31E5A43E80050AEEC /* SVGElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGElement.swift; sourceTree = "<group>"; };
+		2A7E8DB51E5A55A50050AEEC /* SVGTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTag.swift; sourceTree = "<group>"; };
+		2A7E8DB71E5A685B0050AEEC /* SVGCSSParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGCSSParser.swift; sourceTree = "<group>"; };
+		2A9B02B41E3E728300AF4FAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		2AAEAFFC1EE490E400693572 /* SVGRendererDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRendererDestination.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A56751F1E58B74C0006E4EA /* libxml2.2.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A56751E1E58A1E70006E4EA /* libxml2.2.tbd in Frameworks */,
 				2A6FA3271DCB420900B62C82 /* libSVG.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,12 +92,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A56751C1E58A1E60006E4EA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A56751D1E58A1E60006E4EA /* libxml2.2.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2A6FA3131DCB420900B62C82 = {
 			isa = PBXGroup;
 			children = (
+				2A9B02B31E3E728300AF4FAE /* clibxml */,
 				2A6FA31F1DCB420900B62C82 /* libSVG */,
 				2A6FA32A1DCB420900B62C82 /* libSVGTests */,
 				2A6FA31E1DCB420900B62C82 /* Products */,
+				2A56751C1E58A1E60006E4EA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,6 +124,13 @@
 			isa = PBXGroup;
 			children = (
 				2A6FA3201DCB420900B62C82 /* libSVG.h */,
+				2A6FA3371DCBBA7B00B62C82 /* SVG.swift */,
+				2A5675201E58B93A0006E4EA /* SVGNode.swift */,
+				2A7E8DB31E5A43E80050AEEC /* SVGElement.swift */,
+				2A65F35B1EA0F7DD003D1BD2 /* SVGRenderer.swift */,
+				2AAEAFFC1EE490E400693572 /* SVGRendererDestination.swift */,
+				2A7E8DB51E5A55A50050AEEC /* SVGTag.swift */,
+				2A7E8DB71E5A685B0050AEEC /* SVGCSSParser.swift */,
 				2A6FA3211DCB420900B62C82 /* Info.plist */,
 			);
 			path = libSVG;
@@ -80,10 +139,38 @@
 		2A6FA32A1DCB420900B62C82 /* libSVGTests */ = {
 			isa = PBXGroup;
 			children = (
-				2A6FA32B1DCB420900B62C82 /* libSVGTests.swift */,
+				2A6FA3391DCBBBD400B62C82 /* TestFiles */,
+				2A6FA32B1DCB420900B62C82 /* libSVGLoadTests.swift */,
+				2A74F5771DFFDCCF00F0771E /* libSVGParseTests.swift */,
+				2A74F5791DFFDCF200F0771E /* libSVGViewPortTests.swift */,
+				2A74F57B1DFFDD2400F0771E /* libSVGShapeTests.swift */,
+				2A74F57D1DFFDD4500F0771E /* libSVGGroupTests.swift */,
+				2A74F57F1DFFDD9500F0771E /* libSVGGradientTests.swift */,
 				2A6FA32D1DCB420900B62C82 /* Info.plist */,
 			);
 			path = libSVGTests;
+			sourceTree = "<group>";
+		};
+		2A6FA3391DCBBBD400B62C82 /* TestFiles */ = {
+			isa = PBXGroup;
+			children = (
+				2A6FA33A1DCBBBD400B62C82 /* Death.svg */,
+				2A6FA33B1DCBBBD400B62C82 /* Frankenstein.svg */,
+				2A6FA33C1DCBBBD400B62C82 /* Mummy.svg */,
+				2A6FA33D1DCBBBD400B62C82 /* Pumpkin.svg */,
+				2A6FA33E1DCBBBD400B62C82 /* Skull.svg */,
+				2A6FA33F1DCBBBD400B62C82 /* Spider.svg */,
+			);
+			path = TestFiles;
+			sourceTree = "<group>";
+		};
+		2A9B02B31E3E728300AF4FAE /* clibxml */ = {
+			isa = PBXGroup;
+			children = (
+				2A9B02B41E3E728300AF4FAE /* module.modulemap */,
+			);
+			name = clibxml;
+			path = ThirdParties/clibxml;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,12 +230,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = MMyneta;
 				TargetAttributes = {
 					2A6FA31C1DCB420900B62C82 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = E57NY67VPR;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
 					2A6FA3251DCB420900B62C82 = {
@@ -188,6 +276,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A6FA3421DCBBBD400B62C82 /* Mummy.svg in Resources */,
+				2A6FA3451DCBBBD400B62C82 /* Spider.svg in Resources */,
+				2A6FA3431DCBBBD400B62C82 /* Pumpkin.svg in Resources */,
+				2A6FA3411DCBBBD400B62C82 /* Frankenstein.svg in Resources */,
+				2A6FA3401DCBBBD400B62C82 /* Death.svg in Resources */,
+				2A6FA3441DCBBBD400B62C82 /* Skull.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +292,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A7E8DB61E5A55A50050AEEC /* SVGTag.swift in Sources */,
+				2A6FA3381DCBBA7B00B62C82 /* SVG.swift in Sources */,
+				2AAEAFFD1EE490E400693572 /* SVGRendererDestination.swift in Sources */,
+				2A5675211E58B93A0006E4EA /* SVGNode.swift in Sources */,
+				2A7E8DB81E5A685B0050AEEC /* SVGCSSParser.swift in Sources */,
+				2A65F35C1EA0F7DD003D1BD2 /* SVGRenderer.swift in Sources */,
+				2A7E8DB41E5A43E80050AEEC /* SVGElement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +306,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A6FA32C1DCB420900B62C82 /* libSVGTests.swift in Sources */,
+				2A74F57C1DFFDD2400F0771E /* libSVGShapeTests.swift in Sources */,
+				2A74F5781DFFDCCF00F0771E /* libSVGParseTests.swift in Sources */,
+				2A74F5801DFFDD9500F0771E /* libSVGGradientTests.swift in Sources */,
+				2A74F57E1DFFDD4500F0771E /* libSVGGroupTests.swift in Sources */,
+				2A74F57A1DFFDCF200F0771E /* libSVGViewPortTests.swift in Sources */,
+				2A6FA32C1DCB420900B62C82 /* libSVGLoadTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +344,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -290,6 +397,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -319,6 +427,8 @@
 		2A6FA3321DCB420900B62C82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -327,19 +437,27 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/ThirdParties/clibxml/**",
+					"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-migrator/sdks/MacOSX.sdk/usr/include/libxml2/**",
+				);
 				INFOPLIST_FILE = libSVG/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mmyneta.libSVG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/ThirdParties/clibxml/**";
 			};
 			name = Debug;
 		};
 		2A6FA3331DCB420900B62C82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -348,6 +466,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/ThirdParties/clibxml/**",
+					"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-migrator/sdks/MacOSX.sdk/usr/include/libxml2/**",
+				);
 				INFOPLIST_FILE = libSVG/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -355,14 +477,17 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/ThirdParties/clibxml/**";
 			};
 			name = Release;
 		};
 		2A6FA3351DCB420900B62C82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = E57NY67VPR;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/ThirdParties/clibxml/**";
 				INFOPLIST_FILE = libSVGTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mmyneta.libSVGTests;
@@ -374,8 +499,10 @@
 		2A6FA3361DCB420900B62C82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = E57NY67VPR;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/ThirdParties/clibxml/**";
 				INFOPLIST_FILE = libSVGTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mmyneta.libSVGTests;
@@ -403,6 +530,7 @@
 				2A6FA3331DCB420900B62C82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2A6FA3341DCB420900B62C82 /* Build configuration list for PBXNativeTarget "libSVGTests" */ = {
 			isa = XCConfigurationList;
@@ -411,6 +539,7 @@
 				2A6FA3361DCB420900B62C82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

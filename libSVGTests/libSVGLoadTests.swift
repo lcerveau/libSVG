@@ -7,6 +7,8 @@
 //
 
 import XCTest
+import Foundation
+import clibxml
 @testable import libSVG
 
 class libSVGTests: XCTestCase {
@@ -21,16 +23,21 @@ class libSVGTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testLoadSVGFile() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let testFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../TestFiles/Death.svg").standardizedFileURL.path
+        
+        print(testFilePath)
+        let svg = SVG(path:testFilePath)
+        let destination:SVGRenderDestination = SVGRenderDestination(.file,nil)
+        svg.addRenderDestination(destination)        
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testLoadNonSVGFile() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
 }

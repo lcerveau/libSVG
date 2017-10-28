@@ -1,5 +1,0 @@
-module libxml [system] [extern_c]{
-    umbrella "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-migrator/sdks/MacOSX.sdk/usr/include/libxml2/"
-    export *
-}
-

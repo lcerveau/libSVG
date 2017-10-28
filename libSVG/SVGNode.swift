@@ -12,6 +12,24 @@ import Foundation
 typealias preTraverseNodeFunction = (SVGNode, Int, Int) -> Void
 typealias postTraverseNodeFunction = (SVGNode, Int, Int) -> Void
 
+enum SVGNodeOperation:CustomStringConvertible {
+    case render, export, print
+    
+    public var description:String {
+        switch self {
+            case .render:
+                return "render"
+            case .export:
+                return "export"
+            case .print:
+                return "print"
+        }
+    }
+}
+
+enum SVGNodeOperationParameter:String {
+    case renderContextType, renderImageDestinationAttributes    
+}
 
 class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     
@@ -20,6 +38,7 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     var children:[SVGNode] = [SVGNode]()
     var parent:SVGNode?
     
+        //Life cycle: creation
     init(value:SVGElement?, parentNode:SVGNode? = nil) {
         self.value = value
         
@@ -32,12 +51,26 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
         }
     }
     
-    deinit {
-        print("goodbye")
+        //Operation: this is the main entry point
+    func applyOperation(operation:SVGNodeOperation, parameters:[String:Any]?) -> Any? {
+        switch operation {
+        case .render:
+            print("render")
+        case .export:
+            print("export")
+        case .print:
+            print("print")
+        }
+        return nil
     }
     
+        //Print a simple node
     public var description: String {
-        return "<\(type(of: self)):\(self.value)>"
+        if let tmpValue = self.value {
+            return "<\(type(of: self)):\(tmpValue)>"
+        } else {
+            return "<\(type(of: self))>"
+        }
     }
     
     public var debugDescription: String {

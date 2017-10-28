@@ -1,5 +1,5 @@
 //
-//  libSVGVewPortTests.swift
+//  libSVGViewPortTests.swift
 //  libSVG
 //
 //  Created by Laurent Cerveau on 13/12/2016.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class libSVGVewPortTests: XCTestCase {
+class libSVGViewPortTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
