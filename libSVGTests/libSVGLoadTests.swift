@@ -28,11 +28,13 @@ class libSVGTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
         let testFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../TestFiles/Death.svg").standardizedFileURL.path
-        
+        let outFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../Result/testLoad.svg").standardizedFileURL.path
+
         print(testFilePath)
         let svg = SVG(path:testFilePath)
-        let destination:SVGRenderDestination = SVGRenderDestination(.file,nil)
-        svg.addRenderDestination(destination)        
+        guard let destination:SVGRenderDestination = SVGRenderDestination(destination:outFilePath) else { XCTAssert(false); return}
+        svg.addRenderDestination(destination: destination)        
+        svg.renderToDestination(destinationUUID: destination.uuid)
     }
     
     func testLoadNonSVGFile() {

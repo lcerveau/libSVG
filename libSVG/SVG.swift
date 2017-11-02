@@ -13,7 +13,7 @@ import ImageIO
 
 
 enum SVGOptions:Int, OptionSet {
-    case none = 0, parseAtLoad = 1
+    case none = 0, noParseAtLoad = 1, verboseActions = 2
     
     init(rawValue:Int) {
         self.init(rawValue:rawValue)
@@ -23,45 +23,57 @@ enum SVGOptions:Int, OptionSet {
 class SVG {
     
         //we keep both for manipulation
-    var fileURL:URL?
-    var filePath:String?
+    var sourcefileURL:URL?
+    var sourcefilePath:String?
     var isValidSVG:Bool = false
     var isParsed:Bool = false
+    var verbose:Bool = false
     
     var svgTree:SVGNode?
-    var renderDestinations:[SVGRenderDestination] = [SVGRenderDestination]()
+    var renderDestinations:[String:SVGRenderDestination] = [String:SVGRenderDestination]()
     
-        //simply create an empty SVG, with default size (400/600)
-    init() {
-        self.filePath = nil
-        self.fileURL = nil
+    //simply create an empty SVG, with no size. If one want to have a default sze the SVG should be passed an SVGDefault (400/600)
+    init(options:SVGOptions?=nil) {
+        self.sourcefilePath = nil
+        self.sourcefileURL = nil
         self.svgTree = nil
         self.isValidSVG = true
     }
     
-        //We should make it optional
-    init(path:String) {
-        
-        self.filePath = path
-        guard FileManager.default.fileExists(atPath: path) else { return }
-        self.fileURL = URL(fileURLWithPath: path)
-        self.parse()
-        self.isValidSVG = true
+    //We should make it optional to parse
+    init(content:String, options:SVGOptions?=nil) {
+        self.sourcefilePath = nil
+        self.sourcefileURL = nil
+        self.svgTree = nil
     }
     
-        //We should make it optional
-    init(url:URL) {
-        self.fileURL = url
-        self.filePath = self.fileURL?.path
-        guard FileManager.default.fileExists(atPath: self.filePath!) else { return }
+        //We should make it optional to parse
+    init(path:String, options:SVGOptions?=nil) {
         
-        self.parse()
-        self.isValidSVG = true
+        self.sourcefilePath = path
+        guard FileManager.default.fileExists(atPath: path) else { return }
+        self.sourcefileURL = URL(fileURLWithPath: path)
+        if nil == options || false ==  options!.contains(.noParseAtLoad) {
+            self.parseSource()
+            self.isValidSVG = true
+        }
+
+    }
+    
+        //We should make it optional to parse
+    init(url:URL, options:SVGOptions?=nil) {
+        self.sourcefileURL = url
+        self.sourcefilePath = self.sourcefileURL?.path
+        guard FileManager.default.fileExists(atPath: self.sourcefilePath!) else { return }
+        if nil == options || false ==  options!.contains(.noParseAtLoad) {
+            self.parseSource()
+            self.isValidSVG = true
+        }
     }
     
         //Parse when this a file. Calling this on
-    func parse() {
-        guard let filePath = self.filePath else { return }
+    func parseSource() {
+        guard let filePath = self.sourcefilePath else { return }
         guard let filePathCArray = filePath.cString(using: String.Encoding.utf8) else { return }
             
         filePathCArray.withUnsafeBufferPointer { ptr in
@@ -71,15 +83,11 @@ class SVG {
             guard let rootNode:xmlNodePtr =  xmlDocGetRootElement(xmlFileDoc) else { return }
             
                 //Do the parsing
-            parseXMLNode(nodePtr:rootNode, parentNode:nil, depth:0)
+            parseXMLNode(nodePtr:rootNode, parentNode:nil)
             
                 //Do the parsing
             xmlFreeDoc(xmlFileDoc)
-            xmlCleanupParser()
-            
-            if let dd = self.svgTree?.debugDescription {
-              print(dd)
-            }
+            xmlCleanupParser()            
         }
         
         isParsed = true
@@ -87,17 +95,17 @@ class SVG {
     
         //
     func addRenderDestination(destination:SVGRenderDestination) {
-        renderDestinations.append(destination)
+        renderDestinations[destination.uuid] = destination
     }
     
     func renderToDestination(destinationUUID:String) {
-        
+        let _ = self.svgTree?.applyOperation(operation: .render, parameters: ["destination" : renderDestinations[destinationUUID]])
     }
     
     func dump() -> Void {
     }
     
-    internal func parseXMLNode(nodePtr:xmlNodePtr, parentNode:SVGNode?, depth:Int) -> Void {
+    internal func parseXMLNode(nodePtr:xmlNodePtr, parentNode:SVGNode?, depth:Int=0) -> Void {
         
         let node:xmlNode = nodePtr.pointee
         var cur_node:xmlNode = node
@@ -107,6 +115,7 @@ class SVG {
             var contentStr = ""
             
             let nodeName = String(cString:cur_node.name)
+            //print(nodeName)
             for _ in 0..<depth {
                 beginStr += "  "
                 endStr += "  "
@@ -114,21 +123,23 @@ class SVG {
             beginStr += "<"+nodeName
             endStr += "</"+nodeName
             
+                //The Tag is the SVG entity, the Element is the instance of it, the Node encapsulates it into a tree structure
             if let tmpTag = SVGTag(name: nodeName) {
                 let tmpElement = SVGElement(tag:tmpTag)
                 let tmpNode = SVGNode(value: tmpElement)
-                print(tmpNode)
+                
+                //print(tmpNode)
                 if nil == parentNode {
                     self.svgTree = tmpNode
                 } else {
                     _ = parentNode!.appendChild(childNode: tmpNode)
                 }
-            
-                //print(cur_node.type.rawValue)
                 var nodeProperties = [String:String]()
                 var printName = false
-                if cur_node.type.rawValue == 1 {
+              //  print(cur_node.type)
+                if cur_node.type == XML_ELEMENT_NODE {
                     printName = true
+                        //loop over all properties
                     if let properties:xmlAttrPtr = cur_node.properties {
                         var cur_attr = properties.pointee
                         repeat {
@@ -144,38 +155,50 @@ class SVG {
                         } while true
                     }
                     //tmpNode.value?.type
-                } else if cur_node.type.rawValue == 3 {
+                } else if cur_node.type == XML_TEXT_NODE {
                     if let content = cur_node.content {
                         contentStr = String(cString:content).trimmingCharacters(in: .whitespacesAndNewlines)
-                        printName = (contentStr.characters.count != 0)
+//                        printName = (contentStr.characters.count != 0)
+                        tmpElement.content = contentStr
                     }
                     
                 }
                 
-                if printName {
-                    for(attr_name, attr_value) in nodeProperties {
-                        beginStr += " \(attr_name)=\"\(attr_value)\""
-                    }
-                    
-                    beginStr += ">"
-                    endStr += ">"
-                    if cur_node.type.rawValue == 1 {
-                        print(beginStr)
-                    } else if cur_node.type.rawValue == 3 {
-                        print(contentStr)
-                    }
-                }
-                
+//                if printName {
+//                    for(attr_name, attr_value) in nodeProperties {
+//                        beginStr += " \(attr_name)=\"\(attr_value)\""
+//                    }
+//
+//                    beginStr += ">"
+//                    endStr += ">"
+//                    if cur_node.type.rawValue == 1 {
+//                        print(beginStr)
+//                    } else if cur_node.type.rawValue == 3 {
+//                        print(contentStr)
+//                    }
+//                }
+//
                 if cur_node.children != nil {
                     parseXMLNode(nodePtr:cur_node.children, parentNode:tmpNode, depth:depth+1)
-                    if printName && cur_node.type.rawValue == 1 {
-                        print(endStr)
-                    }
+                }
+//                    if printName && cur_node.type.rawValue == 1 {
+//                        print(endStr)
+//                    }
+//                } else {
+//                    beginStr+=endStr
+//                    if printName && cur_node.type.rawValue == 1 {
+//                        print(beginStr)
+//                    }
+//                }
+                
+                if nil == cur_node.next {
+                    break
                 } else {
-                    beginStr+=endStr
-                    if printName && cur_node.type.rawValue == 1 {
-                        print(beginStr)
-                    }
+                    cur_node = cur_node.next.pointee
+                }
+            } else {
+                if cur_node.children != nil {
+                    parseXMLNode(nodePtr:cur_node.children, parentNode:nil, depth:depth+1)
                 }
                 
                 if nil == cur_node.next {
@@ -183,6 +206,7 @@ class SVG {
                 } else {
                     cur_node = cur_node.next.pointee
                 }
+                print("Unknown tag"+nodeName)
             }
         } while true
     }

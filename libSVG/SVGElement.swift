@@ -11,7 +11,7 @@ import clibxml
 
 class SVGElement {
     let tag:SVGTag
-    let content:String?
+    var content:String?
     let attributes:[String:Any]?
     
     //Move to a init? anc check tag
