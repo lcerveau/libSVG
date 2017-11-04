@@ -105,17 +105,32 @@ class SVG {
     func dump() -> Void {
     }
     
+    /* This is for the parsing of one node only, not an array if node. It is up to the function to call
+    itself with either child or sibling */
     internal func parseXMLNode(nodePtr:xmlNodePtr, parentNode:SVGNode?, depth:Int=0) -> Void {
         
         let node:xmlNode = nodePtr.pointee
         var cur_node:xmlNode = node
+//        let nodeName = String(cString:cur_node.name)
+//        var idx:Int = 0
+//        print("--> enter "+nodeName)
+//        if let ns:xmlNsPtr = cur_node.ns {
+//            print(" NS: "+String(cString:cur_node.ns.pointee.href))
+//        }
         repeat{
+            
+            print(" == repeat " + String(idx))
+            let nodeName = String(cString:cur_node.name)
+            var idx:Int = 0
+            print("--> enter "+nodeName)
+            if let ns:xmlNsPtr = cur_node.ns {
+                print(" NS: "+String(cString:cur_node.ns.pointee.href))
+            }
+            idx = idx+1
             var beginStr = ""
             var endStr = ""
             var contentStr = ""
             
-            let nodeName = String(cString:cur_node.name)
-            //print(nodeName)
             for _ in 0..<depth {
                 beginStr += "  "
                 endStr += "  "
@@ -138,6 +153,7 @@ class SVG {
                 var printName = false
               //  print(cur_node.type)
                 if cur_node.type == XML_ELEMENT_NODE {
+                    print("    [ELEMENT]")
                     printName = true
                         //loop over all properties
                     if let properties:xmlAttrPtr = cur_node.properties {
@@ -154,8 +170,10 @@ class SVG {
                             }
                         } while true
                     }
+                    print("     Props:" + String(describing:nodeProperties))
                     //tmpNode.value?.type
                 } else if cur_node.type == XML_TEXT_NODE {
+                    print("    [TEXT]")
                     if let content = cur_node.content {
                         contentStr = String(cString:content).trimmingCharacters(in: .whitespacesAndNewlines)
 //                        printName = (contentStr.characters.count != 0)
@@ -179,7 +197,10 @@ class SVG {
 //                }
 //
                 if cur_node.children != nil {
+                    print("    --> one level down")
                     parseXMLNode(nodePtr:cur_node.children, parentNode:tmpNode, depth:depth+1)
+                } else {
+                    print("    --> no children")
                 }
 //                    if printName && cur_node.type.rawValue == 1 {
 //                        print(endStr)
@@ -209,6 +230,8 @@ class SVG {
                 print("Unknown tag"+nodeName)
             }
         } while true
+        
+        print("exit "+nodeName)
     }
     
 }
