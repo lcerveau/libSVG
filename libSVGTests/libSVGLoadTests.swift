@@ -30,8 +30,10 @@ class libSVGTests: XCTestCase {
         let testFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../TestFiles/Death.svg").standardizedFileURL.path
         let outFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../Result/testLoad.svg").standardizedFileURL.path
 
-        print(testFilePath)
-        let svg = SVG(path:testFilePath)
+        print("== LOADING:" + testFilePath)
+        let svg = SVG(path:testFilePath, options:[.verboseActions])
+        svg.dump()
+        
         guard let destination:SVGRenderDestination = SVGRenderDestination(destination:outFilePath) else { XCTAssert(false); return}
         svg.addRenderDestination(destination: destination)        
         svg.renderToDestination(destinationUUID: destination.uuid)

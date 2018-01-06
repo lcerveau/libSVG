@@ -12,12 +12,13 @@ import CoreServices
 import ImageIO
 
 
-enum SVGOptions:Int, OptionSet {
-    case none = 0, noParseAtLoad = 1, verboseActions = 2
+/* Options to instiantiate the SVG */
+struct SVGOptions:OptionSet {
+    let rawValue: Int
     
-    init(rawValue:Int) {
-        self.init(rawValue:rawValue)
-    }
+    static let none = SVGOptions(rawValue: 0)
+    static let noParseAtLoad = SVGOptions(rawValue: 1 << 0)
+    static let verboseActions = SVGOptions(rawValue: 1 << 2)
 }
 
 class SVG {
@@ -31,13 +32,16 @@ class SVG {
     
     var svgTree:SVGNode?
     var renderDestinations:[String:SVGRenderDestination] = [String:SVGRenderDestination]()
+    var renderers:[String:SVGRenderer] = [String:SVGRenderer]()
     
     //simply create an empty SVG, with no size. If one want to have a default sze the SVG should be passed an SVGDefault (400/600)
+
     init(options:SVGOptions?=nil) {
         self.sourcefilePath = nil
         self.sourcefileURL = nil
         self.svgTree = nil
         self.isValidSVG = true
+        self.verbose =  options != nil && options!.contains(.verboseActions)
     }
     
     //We should make it optional to parse
@@ -45,6 +49,7 @@ class SVG {
         self.sourcefilePath = nil
         self.sourcefileURL = nil
         self.svgTree = nil
+        self.verbose =  options != nil && options!.contains(.verboseActions)
     }
     
         //We should make it optional to parse
@@ -57,7 +62,7 @@ class SVG {
             self.parseSource()
             self.isValidSVG = true
         }
-
+        self.verbose =  options != nil && options!.contains(.verboseActions)
     }
     
         //We should make it optional to parse
@@ -98,140 +103,133 @@ class SVG {
         renderDestinations[destination.uuid] = destination
     }
     
-    func renderToDestination(destinationUUID:String) {
-        let _ = self.svgTree?.applyOperation(operation: .render, parameters: ["destination" : renderDestinations[destinationUUID]])
+    func addRendererer(renderer:SVGRenderer) {
+        renderers[renderer.uuid] = renderer
+    }
+    
+    func renderToDestination(destinationUUID:String, rendererUUID:String? = nil) {
+        guard self.isValidSVG == true else { return }
+        guard let destination = renderDestinations[destinationUUID] else {
+            if self.verbose {
+                print("[renderToDestination] invalid destination")
+            }
+            return
+        }
+        
+            //if no renderer create a CoreGraphics one
+        var realRendererUUID:String
+        guard let rUUID = rendererUUID else {
+            let cgRenderer = SVGCoreGraphicsRenderer()
+            addRendererer(renderer: cgRenderer)
+            let _ = self.svgTree?.applyOperation(operation: .render, parameters: ["destination" : destination, "renderer": cgRenderer])
+        }
+        
+        
+        let _ = self.svgTree?.applyOperation(operation: .render, parameters: ["destination" : destination, "renderer": renderer])
     }
     
     func dump() -> Void {
+        guard self.isValidSVG == true else { return }
+        let _ = self.svgTree?.applyOperation(operation: .print, parameters: nil)
     }
     
-    /* This is for the parsing of one node only, not an array if node. It is up to the function to call
-    itself with either child or sibling */
-    internal func parseXMLNode(nodePtr:xmlNodePtr, parentNode:SVGNode?, depth:Int=0) -> Void {
+    //For verbose mode: display the parsed XML with XML syntax
+    internal func preHookParseXMLNode(node:SVGNode, depth:Int) -> Void {
         
-        let node:xmlNode = nodePtr.pointee
-        var cur_node:xmlNode = node
-//        let nodeName = String(cString:cur_node.name)
-//        var idx:Int = 0
-//        print("--> enter "+nodeName)
-//        if let ns:xmlNsPtr = cur_node.ns {
-//            print(" NS: "+String(cString:cur_node.ns.pointee.href))
-//        }
-        repeat{
-            
-            print(" == repeat " + String(idx))
-            let nodeName = String(cString:cur_node.name)
-            var idx:Int = 0
-            print("--> enter "+nodeName)
-            if let ns:xmlNsPtr = cur_node.ns {
-                print(" NS: "+String(cString:cur_node.ns.pointee.href))
-            }
-            idx = idx+1
-            var beginStr = ""
-            var endStr = ""
-            var contentStr = ""
-            
-            for _ in 0..<depth {
-                beginStr += "  "
-                endStr += "  "
-            }
-            beginStr += "<"+nodeName
-            endStr += "</"+nodeName
-            
-                //The Tag is the SVG entity, the Element is the instance of it, the Node encapsulates it into a tree structure
-            if let tmpTag = SVGTag(name: nodeName) {
-                let tmpElement = SVGElement(tag:tmpTag)
-                let tmpNode = SVGNode(value: tmpElement)
-                
-                //print(tmpNode)
-                if nil == parentNode {
-                    self.svgTree = tmpNode
-                } else {
-                    _ = parentNode!.appendChild(childNode: tmpNode)
-                }
-                var nodeProperties = [String:String]()
-                var printName = false
-              //  print(cur_node.type)
-                if cur_node.type == XML_ELEMENT_NODE {
-                    print("    [ELEMENT]")
-                    printName = true
-                        //loop over all properties
-                    if let properties:xmlAttrPtr = cur_node.properties {
-                        var cur_attr = properties.pointee
-                        repeat {
-                            let attr_name:String = String(cString:cur_attr.name)
-                            let attr_value = String(cString:xmlGetProp(&cur_node, attr_name))
-                            nodeProperties[attr_name] = attr_value
-                            
-                            if nil == cur_attr.next {
-                                break;
-                            } else {
-                                cur_attr = cur_attr.next.pointee
-                            }
-                        } while true
-                    }
-                    print("     Props:" + String(describing:nodeProperties))
-                    //tmpNode.value?.type
-                } else if cur_node.type == XML_TEXT_NODE {
-                    print("    [TEXT]")
-                    if let content = cur_node.content {
-                        contentStr = String(cString:content).trimmingCharacters(in: .whitespacesAndNewlines)
-//                        printName = (contentStr.characters.count != 0)
-                        tmpElement.content = contentStr
-                    }
-                    
-                }
-                
-//                if printName {
-//                    for(attr_name, attr_value) in nodeProperties {
-//                        beginStr += " \(attr_name)=\"\(attr_value)\""
-//                    }
-//
-//                    beginStr += ">"
-//                    endStr += ">"
-//                    if cur_node.type.rawValue == 1 {
-//                        print(beginStr)
-//                    } else if cur_node.type.rawValue == 3 {
-//                        print(contentStr)
-//                    }
-//                }
-//
-                if cur_node.children != nil {
-                    print("    --> one level down")
-                    parseXMLNode(nodePtr:cur_node.children, parentNode:tmpNode, depth:depth+1)
-                } else {
-                    print("    --> no children")
-                }
-//                    if printName && cur_node.type.rawValue == 1 {
-//                        print(endStr)
-//                    }
-//                } else {
-//                    beginStr+=endStr
-//                    if printName && cur_node.type.rawValue == 1 {
-//                        print(beginStr)
-//                    }
-//                }
-                
-                if nil == cur_node.next {
-                    break
-                } else {
-                    cur_node = cur_node.next.pointee
-                }
+        guard self.verbose == true else { return }
+        
+        let spaces = String(repeating: " ", count: depth)
+        let nodeName = node.value!.tag.name
+        let attributeString = node.value!.attributes?.flatMap({ (key:String, value:String) -> String in
+            return key + "=\"" + value + "\""
+        }).joined(separator: " ")
+        
+        if let attributeString = attributeString {
+            if attributeString.count != 0 {
+                print(spaces + "<" + nodeName + " " + attributeString + ">")
             } else {
-                if cur_node.children != nil {
-                    parseXMLNode(nodePtr:cur_node.children, parentNode:nil, depth:depth+1)
-                }
-                
-                if nil == cur_node.next {
-                    break
-                } else {
-                    cur_node = cur_node.next.pointee
-                }
-                print("Unknown tag"+nodeName)
+                print(spaces + "<" + nodeName + ">")
             }
-        } while true
-        
-        print("exit "+nodeName)
+            
+            if let content = node.value!.content {
+                if content.count != 0 {
+                    print(spaces + "  " + content)
+                }
+            }
+        }
     }
-    
+
+    //For verbose mode: display the parsed XML with XML syntax
+    internal func postHookParseXMLNode(node:SVGNode, depth:Int) -> Void {
+        guard self.verbose == true else { return }
+        
+        let spaces = String(repeating: " ", count: depth)
+        let nodeName = node.value!.tag.name
+
+        print(spaces + "<" + nodeName + "/>")
+    }
+
+    /* This is for the parsing of one node only (not an array of nodes, although there is a pointer).
+       It is up to the function to call itself with either child or sibling */
+    internal func parseXMLNode(nodePtr:xmlNodePtr?, parentNode:SVGNode?, depth:Int=0) -> Void {
+        
+        var doConsiderXMLNode = false
+            //validate iput data
+        guard let realNodePtr = nodePtr else { return }
+        var node:xmlNode = realNodePtr.pointee
+        let nodeName = String(cString:node.name)
+        
+            //create the needed lib entities
+        guard let tmpTag = SVGTag(name: nodeName) else {
+            return
+        }
+        
+        let tmpElement = SVGElement(tag:tmpTag)
+        let tmpNode = SVGNode(value: tmpElement)
+        
+        var nodeProperties = [String:String]()
+        if node.type == XML_ELEMENT_NODE {
+            doConsiderXMLNode = true
+            if let properties:xmlAttrPtr = node.properties {
+                var cur_attr = properties.pointee
+                repeat {
+                    let attr_name:String = String(cString:cur_attr.name)
+                    let attr_value = String(cString:xmlGetProp(&node, attr_name))
+                    nodeProperties[attr_name] = attr_value
+                    
+                    tmpElement.addAttribute(key: attr_name, value: attr_value)
+                    if nil == cur_attr.next {
+                        break;
+                    } else {
+                        cur_attr = cur_attr.next.pointee
+                    }
+                } while true
+            }
+
+        } else if node.type == XML_TEXT_NODE {
+            if let content = node.content {
+                let contentStr = String(cString:content).trimmingCharacters(in: .whitespacesAndNewlines)
+                if contentStr.count != 0 {
+                    doConsiderXMLNode = true
+                    tmpElement.content = contentStr
+                }
+            }
+        }
+        
+        //
+        //Add the parent, if not set it
+        if doConsiderXMLNode  {
+            preHookParseXMLNode(node:tmpNode, depth:depth)
+
+            if nil == parentNode {
+                self.svgTree = tmpNode //TODO : think it has really sense to have it there
+            } else {
+                _ = parentNode!.appendChild(childNode: tmpNode)
+            }
+            parseXMLNode(nodePtr:node.children, parentNode:tmpNode, depth:depth+1)
+            postHookParseXMLNode(node:tmpNode, depth:depth)
+        }
+        parseXMLNode(nodePtr:node.next, parentNode:parentNode, depth:depth)
+        
+    }
 }

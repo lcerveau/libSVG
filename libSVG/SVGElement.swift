@@ -9,15 +9,25 @@
 import Foundation
 import clibxml
 
-class SVGElement {
+class SVGElement:SVGTagInstance {
     let tag:SVGTag
     var content:String?
-    let attributes:[String:Any]?
+    var attributes:[String:String]?
     
     //Move to a init? anc check tag
-    init(tag:SVGTag, attributes:[String:Any]? = nil) {
+    init(tag:SVGTag, attributes:[String:String]? = nil) {
         self.tag = tag
-        self.attributes = (nil == attributes) ? [String:Any]() : attributes!
+        self.attributes = (nil == attributes) ? [String:String]() : attributes!
         self.content = ""
+    }
+    
+    func addAttribute(key:String, value:String) {
+        //test the fact that a tag accept an attribute
+        self.attributes![key] = value
+    }
+    
+        //Main instance does nothing
+    func render(context:inout CGContext?, attributes:[String:Any]?) {
+        
     }
 }

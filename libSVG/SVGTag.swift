@@ -128,9 +128,9 @@ class SVGTag {
         "radialGradient":["category":TagCategory.gradient],
         "rect":["category":TagCategory.shape],
 //        "script":[],
-        "set":[":TagCategory.":TagCategory.animation],
+        "set":["category":TagCategory.animation],
 //        "stop":[],
-//        "style":[],
+        "style":["category":TagCategory.textContent],
         "svg":["category":TagCategory.container],
         "switch":["category":TagCategory.container],
         "symbol":["category":TagCategory.container],
@@ -143,6 +143,9 @@ class SVGTag {
 //        "view":[],
 //        "vkern":[]
     ]
-    
-    
+}
+
+
+protocol SVGTagInstance {
+    func render(context:inout CGContext?, attributes:[String:Any]?);
 }

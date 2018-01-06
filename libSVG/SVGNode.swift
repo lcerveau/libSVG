@@ -59,6 +59,7 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
         case .export:
             print("export")
         case .print:
+            print(self.debugDescription)
             print("print")
         }
         return nil
@@ -74,16 +75,11 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     }
     
     public var debugDescription: String {
-        var nodeString:String = ""
-        traverse(
-            
+        
+        let _ = traverse(
             preTraverseFunction: { (node:SVGNode, level:Int, childIndex:Int) in
-                if level != 0 {
-                    for _ in 0...level - 1 {
-                        nodeString = nodeString + "  "
-                    }
-                }
-                nodeString  = nodeString + "+ " + "<\(type(of: node)):\((node.value! as SVGElement).tag)>"
+                var nodeString = String(repeating: " ", count: level)
+                nodeString  = nodeString + "+ " + "<\(type(of: node)):\((node.value! as SVGElement).tag.name)>"
                 nodeString  = nodeString + " Level: " + String(level) + ", Index: " + String(childIndex) + "\n"
         },
             
@@ -91,7 +87,7 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
                 
                 
         })
-        return nodeString
+        return "lala"
     }
     
     //Adding a child will modify the children
@@ -167,7 +163,7 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     }
     
     //Tree iterator
-    func traverse(level:Int = 0, childIndex:Int = 0, preTraverseFunction:preTraverseNodeFunction? = nil, postTraverseFunction:postTraverseNodeFunction? = nil ) {
+    func traverse(level:Int = 0, childIndex:Int = 0, preTraverseFunction:preTraverseNodeFunction? = nil, postTraverseFunction:postTraverseNodeFunction? = nil ) -> (Bool, Any?) {
         
         if let preTraverseFunction = preTraverseFunction {
             preTraverseFunction(self, level, childIndex)
@@ -180,6 +176,8 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
         if let postTraverseFunction = postTraverseFunction {
             postTraverseFunction(self, level, childIndex)
         }
+        
+        return (true, nil)
     }
     
     //will parse the tree and set up identifier

@@ -12,10 +12,20 @@ import CoreGraphics
 //renderer will be OpenGL or Native or HTML
 protocol SVGRenderer {
     var identifier:String { get }
-    func render(element:SVGElement, destination:SVGRenderDestination)
+    var uuid:String { get }
 }
 
-class SVGCoreGRaphicsRenderer {
-    
-    
+class SVGCoreGraphicsRenderer:SVGRenderer {
+    var identifier: String = "com.libsvg.renderer.coregraphics"
+    var uuid = UUID().uuidString
+}
+
+class SVGOpenGLRenderer:SVGRenderer {
+    var identifier: String = "com.libsvg.renderer.opengl"
+    var uuid = UUID().uuidString
+}
+
+class SVGMetalRenderer:SVGRenderer {
+    var identifier: String = "com.libsvg.renderer.metal"
+    var uuid = UUID().uuidString
 }
