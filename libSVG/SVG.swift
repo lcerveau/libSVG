@@ -118,14 +118,21 @@ class SVG {
         
             //if no renderer create a CoreGraphics one
         var realRendererUUID:String
-        guard let rUUID = rendererUUID else {
-            let cgRenderer = SVGCoreGraphicsRenderer()
+        if nil == rendererUUID {
+            let cgRenderer = SVGCoreGraphicsRenderer() 
             addRendererer(renderer: cgRenderer)
-            let _ = self.svgTree?.applyOperation(operation: .render, parameters: ["destination" : destination, "renderer": cgRenderer])
+            realRendererUUID = cgRenderer.uuid
+        } else {
+            realRendererUUID = rendererUUID!
+            if nil == renderers[realRendererUUID] {
+                let cgRenderer = SVGCoreGraphicsRenderer()
+                addRendererer(renderer: cgRenderer)
+                realRendererUUID = cgRenderer.uuid
+            }
         }
         
+        let _ = self.svgTree?.applyOperation(operation: .render, parameters: ["destination" : destination, "renderer": renderers[realRendererUUID]!])
         
-        let _ = self.svgTree?.applyOperation(operation: .render, parameters: ["destination" : destination, "renderer": renderer])
     }
     
     func dump() -> Void {

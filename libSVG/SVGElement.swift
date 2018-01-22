@@ -30,4 +30,11 @@ class SVGElement:SVGTagInstance {
     func render(context:inout CGContext?, attributes:[String:Any]?) {
         
     }
+    
+    func print(context:inout CGContext?, attributes:[String:Any]?){
+        
+    }
+    func export(context:inout CGContext?, attributes:[String:Any]?){
+        
+    }
 }

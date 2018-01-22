@@ -9,20 +9,29 @@
 import Foundation
 
 
-typealias preTraverseNodeFunction = (SVGNode, Int, Int) -> Void
-typealias postTraverseNodeFunction = (SVGNode, Int, Int) -> Void
+typealias preTraverseNodeFunction = (SVGNode, SVGNodeOperation , [String:Any]?, Int, Int) -> Void
+typealias postTraverseNodeFunction = (SVGNode, SVGNodeOperation , [String:Any]?, Int, Int) -> Void
 
 enum SVGNodeOperation:CustomStringConvertible {
-    case render, export, print
+    case render, export, print, balance, none
     
     public var description:String {
         switch self {
+            //render with the parameters
             case .render:
                 return "render"
+            //Create a file
             case .export:
                 return "export"
+            //Dump
             case .print:
                 return "print"
+            //Maintain the tree after addition/removal
+            case .balance:
+                return "balance"
+            //Do Nothing
+            case .none:
+                return "none"
         }
     }
 }
@@ -52,15 +61,18 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     }
     
         //Operation: this is the main entry point
-    func applyOperation(operation:SVGNodeOperation, parameters:[String:Any]?) -> Any? {
+    func applyOperation(operation:SVGNodeOperation, parameters:[String:Any]? = nil) -> Any? {
         switch operation {
         case .render:
-            print("render")
+            let _ = traverse(operation:.render, parameters:parameters )
         case .export:
-            print("export")
+            let _ = traverse(operation:.export, parameters:parameters )
         case .print:
-            print(self.debugDescription)
-            print("print")
+            let _ = traverse(operation:.print, parameters:parameters )
+        case .balance:
+            let _ = traverse(operation:.balance)
+        case .none:
+            return nil
         }
         return nil
     }
@@ -77,13 +89,13 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     public var debugDescription: String {
         
         let _ = traverse(
-            preTraverseFunction: { (node:SVGNode, level:Int, childIndex:Int) in
+            preTraverseFunction: { (node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) in
                 var nodeString = String(repeating: " ", count: level)
                 nodeString  = nodeString + "+ " + "<\(type(of: node)):\((node.value! as SVGElement).tag.name)>"
                 nodeString  = nodeString + " Level: " + String(level) + ", Index: " + String(childIndex) + "\n"
         },
             
-            postTraverseFunction: { (node:SVGNode, level:Int, childIndex:Int) in
+            postTraverseFunction: { (node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) in
                 
                 
         })
@@ -163,18 +175,18 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     }
     
     //Tree iterator
-    func traverse(level:Int = 0, childIndex:Int = 0, preTraverseFunction:preTraverseNodeFunction? = nil, postTraverseFunction:postTraverseNodeFunction? = nil ) -> (Bool, Any?) {
+    func traverse(operation:SVGNodeOperation = .none, parameters:[String:Any]? = nil, level:Int = 0, childIndex:Int = 0, preTraverseFunction:preTraverseNodeFunction? = nil, postTraverseFunction:postTraverseNodeFunction? = nil ) -> (Bool, Any?) {
         
         if let preTraverseFunction = preTraverseFunction {
-            preTraverseFunction(self, level, childIndex)
+            preTraverseFunction(self, operation, parameters, level, childIndex)
         }
         
         for (index, child) in children.enumerated() {
-            child.traverse(level: level+1, childIndex: index, preTraverseFunction:preTraverseFunction, postTraverseFunction:postTraverseFunction)
+            let _  = child.traverse( operation:operation, parameters: parameters, level: level+1, childIndex: index, preTraverseFunction:preTraverseFunction, postTraverseFunction:postTraverseFunction)
         }
         
         if let postTraverseFunction = postTraverseFunction {
-            postTraverseFunction(self, level, childIndex)
+            postTraverseFunction(self, operation, parameters, level, childIndex)
         }
         
         return (true, nil)
@@ -182,7 +194,7 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     
     //will parse the tree and set up identifier
     private func updateIdentifiers() {
-        traverse ()
+        let _ = traverse (operation:.balance)
     }
     
 }
