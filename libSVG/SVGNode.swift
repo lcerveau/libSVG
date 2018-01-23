@@ -64,13 +64,13 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     func applyOperation(operation:SVGNodeOperation, parameters:[String:Any]? = nil) -> Any? {
         switch operation {
         case .render:
-            let _ = traverse(operation:.render, parameters:parameters )
+            let _ = traverse(operation:.render, parameters:parameters, preTraverseFunction:preTraverseRender, postTraverseFunction:postTraverseRender)
         case .export:
-            let _ = traverse(operation:.export, parameters:parameters )
+            let _ = traverse(operation:.export, parameters:parameters,preTraverseFunction:preTraverseExport, postTraverseFunction:postTraverseExport)
         case .print:
-            let _ = traverse(operation:.print, parameters:parameters )
+            let _ = traverse(operation:.print, parameters:parameters,preTraverseFunction:preTraversePrint, postTraverseFunction:postTraversePrint)
         case .balance:
-            let _ = traverse(operation:.balance)
+            let _ = traverse(operation:.balance,preTraverseFunction:preTraverseBalance, postTraverseFunction:postTraverseBalance)
         case .none:
             return nil
         }
@@ -87,19 +87,7 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     }
     
     public var debugDescription: String {
-        
-        let _ = traverse(
-            preTraverseFunction: { (node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) in
-                var nodeString = String(repeating: " ", count: level)
-                nodeString  = nodeString + "+ " + "<\(type(of: node)):\((node.value! as SVGElement).tag.name)>"
-                nodeString  = nodeString + " Level: " + String(level) + ", Index: " + String(childIndex) + "\n"
-        },
-            
-            postTraverseFunction: { (node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) in
-                
-                
-        })
-        return "lala"
+        return self.applyOperation(operation: .print, parameters: nil) as! String
     }
     
     //Adding a child will modify the children
@@ -197,4 +185,39 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
         let _ = traverse (operation:.balance)
     }
     
+    
+    private func preTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) -> Void{
+        var nodeString = String(repeating: " ", count: level)
+        nodeString  = nodeString + "+ " + "<\(type(of: node)):\((node.value! as SVGElement).tag.name)>"
+        nodeString  = nodeString + " Level: " + String(level) + ", Index: " + String(childIndex) + "\n"
+        print(nodeString)
+    }
+    
+    private func postTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+    
+    }
+    
+    private func preTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) -> Void{
+        
+    }
+    
+    private func postTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+        
+    }
+    
+    private func preTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+        
+    }
+    
+    private func postTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+        
+    }
+    
+    private func preTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+        
+    }
+    
+    private func postTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+        
+    }
 }
