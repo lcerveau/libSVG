@@ -29,6 +29,7 @@
 		2A7E8DB41E5A43E80050AEEC /* SVGElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7E8DB31E5A43E80050AEEC /* SVGElement.swift */; };
 		2A7E8DB61E5A55A50050AEEC /* SVGTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7E8DB51E5A55A50050AEEC /* SVGTag.swift */; };
 		2A7E8DB81E5A685B0050AEEC /* SVGCSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7E8DB71E5A685B0050AEEC /* SVGCSSParser.swift */; };
+		2A802788201D0766004157CD /* libSVGNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A802787201D0766004157CD /* libSVGNodeTests.swift */; };
 		2A96C7E21FA9480100ED94C1 /* SVGTagSVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96C7E11FA9480100ED94C1 /* SVGTagSVG.swift */; };
 		2AAEAFFD1EE490E400693572 /* SVGRendererDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEAFFC1EE490E400693572 /* SVGRendererDestination.swift */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 		2A7E8DB31E5A43E80050AEEC /* SVGElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGElement.swift; sourceTree = "<group>"; };
 		2A7E8DB51E5A55A50050AEEC /* SVGTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTag.swift; sourceTree = "<group>"; };
 		2A7E8DB71E5A685B0050AEEC /* SVGCSSParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGCSSParser.swift; sourceTree = "<group>"; };
+		2A802787201D0766004157CD /* libSVGNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libSVGNodeTests.swift; sourceTree = "<group>"; };
 		2A96C7E11FA9480100ED94C1 /* SVGTagSVG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGTagSVG.swift; sourceTree = "<group>"; };
 		2A9B02B41E3E728300AF4FAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		2AAEAFFC1EE490E400693572 /* SVGRendererDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRendererDestination.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				2A6FA3391DCBBBD400B62C82 /* TestFiles */,
 				2A6FA32B1DCB420900B62C82 /* libSVGLoadTests.swift */,
 				2A74F5771DFFDCCF00F0771E /* libSVGParseTests.swift */,
+				2A802787201D0766004157CD /* libSVGNodeTests.swift */,
 				2A74F5791DFFDCF200F0771E /* libSVGViewPortTests.swift */,
 				2A74F57B1DFFDD2400F0771E /* libSVGShapeTests.swift */,
 				2A74F57D1DFFDD4500F0771E /* libSVGGroupTests.swift */,
@@ -321,6 +324,7 @@
 				2A74F57C1DFFDD2400F0771E /* libSVGShapeTests.swift in Sources */,
 				2A74F5781DFFDCCF00F0771E /* libSVGParseTests.swift in Sources */,
 				2A74F5801DFFDD9500F0771E /* libSVGGradientTests.swift in Sources */,
+				2A802788201D0766004157CD /* libSVGNodeTests.swift in Sources */,
 				2A74F57E1DFFDD4500F0771E /* libSVGGroupTests.swift in Sources */,
 				2A74F57A1DFFDCF200F0771E /* libSVGViewPortTests.swift in Sources */,
 				2A6FA32C1DCB420900B62C82 /* libSVGLoadTests.swift in Sources */,

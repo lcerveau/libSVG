@@ -8,31 +8,54 @@
 
 import Foundation
 
-
-typealias preTraverseNodeFunction = (SVGNode, SVGNodeOperation , [String:Any]?, Int, Int) -> Void
-typealias postTraverseNodeFunction = (SVGNode, SVGNodeOperation , [String:Any]?, Int, Int) -> Void
+typealias preTraverseNodeFunction = (SVGNode, SVGNodeOperation , [String:Any]?, SVGTraverseContext) -> Void
+typealias postTraverseNodeFunction = (SVGNode, SVGNodeOperation , [String:Any]?, SVGTraverseContext) -> Void
 
 enum SVGNodeOperation:CustomStringConvertible {
-    case render, export, print, balance, none
+    case render, export, print, balance, none, any
     
     public var description:String {
         switch self {
-            //render with the parameters
-            case .render:
-                return "render"
-            //Create a file
-            case .export:
-                return "export"
-            //Dump
-            case .print:
-                return "print"
-            //Maintain the tree after addition/removal
-            case .balance:
-                return "balance"
-            //Do Nothing
-            case .none:
-                return "none"
+            case .render: return "render"       //render with the parameters
+            case .export: return "export"       //Create a file
+            case .print: return "print"         //Dump
+            case .balance: return "balance"     //Maintain the tree after addition/removal
+            case .none: return "none"           //Do Nothing
+            case .any: return "any"             //Do Anything
         }
+    }
+    
+//    public var preNodeOperationFunction:preTraverseNodeFunction? {
+//        switch self {
+//            case .render: return SVGNode.preTraverseRender?
+//            case .export: return SVGNode.preTraverseExport?
+//            case .print: return SVGNode.preTraversePrint?
+//            case .balance: return SVGNode.preTraverseBalance?
+//            case .none: return nil
+//            case .any: return nil
+//        }
+//    }
+    
+}
+
+struct SVGTraverseContext
+{
+    var level:Int = 0
+    var childIndex:Int = 0
+    var traverseResult:Any?=nil
+    var traverseError:Any?=nil
+    var refCon:Any? = nil
+    
+    
+    init() {
+    }
+    
+    init(context:SVGTraverseContext) {
+        self.level = context.level
+        self.childIndex = context.childIndex
+        self.traverseResult = context.traverseResult
+        self.traverseError = context.traverseError
+        self.refCon = context.refCon
     }
 }
 
@@ -48,7 +71,7 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     var parent:SVGNode?
     
         //Life cycle: creation
-    init(value:SVGElement?, parentNode:SVGNode? = nil) {
+    init(value:SVGElement?=nil, parentNode:SVGNode? = nil) {
         self.value = value
         
         if let parentNode = parentNode {
@@ -62,16 +85,19 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     
         //Operation: this is the main entry point
     func applyOperation(operation:SVGNodeOperation, parameters:[String:Any]? = nil) -> Any? {
+        let context = SVGTraverseContext()
         switch operation {
         case .render:
-            let _ = traverse(operation:.render, parameters:parameters, preTraverseFunction:preTraverseRender, postTraverseFunction:postTraverseRender)
+            let _ = traverse(operation:.render, parameters:parameters, context:context, preTraverseFunction:preTraverseRender, postTraverseFunction:postTraverseRender)
         case .export:
-            let _ = traverse(operation:.export, parameters:parameters,preTraverseFunction:preTraverseExport, postTraverseFunction:postTraverseExport)
+            let _ = traverse(operation:.export, parameters:parameters, context:context, preTraverseFunction:preTraverseExport, postTraverseFunction:postTraverseExport)
         case .print:
-            let _ = traverse(operation:.print, parameters:parameters,preTraverseFunction:preTraversePrint, postTraverseFunction:postTraversePrint)
+            let _ = traverse(operation:.print, parameters:parameters,context:context, preTraverseFunction:preTraversePrint, postTraverseFunction:postTraversePrint)
         case .balance:
-            let _ = traverse(operation:.balance,preTraverseFunction:preTraverseBalance, postTraverseFunction:postTraverseBalance)
+            let _ = traverse(operation:.balance, context:context, preTraverseFunction:preTraverseBalance, postTraverseFunction:postTraverseBalance)
         case .none:
+            return nil
+        case .any:
             return nil
         }
         return nil
@@ -91,28 +117,33 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     }
     
     //Adding a child will modify the children
-    func appendChild(childNode:SVGNode) -> Bool {
+    func appendChild(childNode:SVGNode) -> Void {
+        
+        //Balance all in level equal or inferior to child. Because we start from child, we need to properly initialize the context
+        var context = SVGTraverseContext()
+        context.level = self.treeIdentifier.count - 1
+        context.childIndex = self.children.count
+
         self.children.append(childNode)
         childNode.parent = self
-        childNode.treeIdentifier = self.treeIdentifier + String(self.children.count)
-        return true
+
+        let _ = childNode.traverse(operation: .balance, parameters: nil, context: context, preTraverseFunction:preTraverseBalance, postTraverseFunction:postTraverseBalance)
     }
     
     //Adding a child will modify the children
-    func insertChild(childNode:SVGNode, at:Int) -> Bool {
+    func insertChild(childNode:SVGNode, at:Int) -> Void {
+        
+        var context = SVGTraverseContext()
+        context.level = self.treeIdentifier.count - 1
+        context.childIndex = 0
+            
         self.children.insert(childNode, at:at)
         childNode.parent = self
-        
-        for (index, child) in children.enumerated() {
-            if index >= at {
-                child.treeIdentifier = self.treeIdentifier + String(index)
-            }
-        }
-        return true
+        let _ = self.traverse(operation: .balance, parameters: nil, context: context, preTraverseFunction:preTraverseBalance, postTraverseFunction:postTraverseBalance)        
     }
     
     //Remove a child based on its index
-    func removeChild(childIndex:Int, recursive:Bool) -> Bool {
+    func removeChild(childIndex:Int) -> Bool {
         guard childIndex >= 0  else { return false }
         guard childIndex < self.children.count else { return false }
         children.remove(at: childIndex)
@@ -124,100 +155,95 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
         }
         return true
     }
+    
+    //Remove a child based on its identifier. It may or not be a direct child
+    func removeChild(childTreeIdentifier:String) -> Bool {
+        var result:Bool = false
+        
+        for (index, child) in children.enumerated() {
+            if child.treeIdentifier == childTreeIdentifier {
+                result = removeChild(childIndex: index)
+                break
+            }
+        }
+        return result
+    }
+
     
     //Will compute height of a tree
     func height() -> Int {
         if let maxVal = children.map({ (node:SVGNode) -> Int in return node.height() }).max() {
             return 1 + maxVal
         } else {
-            return 0
+            return 1
         }
     }
     
-    fileprivate func removeChildWithOption(childIndex:Int, recursive:Bool) -> Bool {
-        guard childIndex >= 0  else { return false }
-        guard childIndex < self.children.count else { return false }
-        children.remove(at: childIndex)
-        
-        for (index, child) in children.enumerated() {
-            if index >= childIndex {
-                child.treeIdentifier = self.treeIdentifier + String(index)
-            }
-        }
-        return true
-    }
     
-    
-    
-    //Remove a child based on its identifier
-    func removeChild(childTreeIdentifier:String, recursive:Bool) -> Bool {
-        var result:Bool = false
-        
-        for (index, child) in children.enumerated() {
-            if child.treeIdentifier == childTreeIdentifier {
-                result = removeChild(childIndex: index, recursive: recursive)
-                break
-            }
-        }
-        return result
-    }
     
     //Tree iterator
-    func traverse(operation:SVGNodeOperation = .none, parameters:[String:Any]? = nil, level:Int = 0, childIndex:Int = 0, preTraverseFunction:preTraverseNodeFunction? = nil, postTraverseFunction:postTraverseNodeFunction? = nil ) -> (Bool, Any?) {
+    func traverse(operation:SVGNodeOperation = .none, parameters:[String:Any]? = nil, context:SVGTraverseContext, preTraverseFunction:preTraverseNodeFunction? = nil, postTraverseFunction:postTraverseNodeFunction? = nil ) -> (Bool, Any?) {
         
         if let preTraverseFunction = preTraverseFunction {
-            preTraverseFunction(self, operation, parameters, level, childIndex)
+            preTraverseFunction(self, operation, parameters, context)
         }
         
         for (index, child) in children.enumerated() {
-            let _  = child.traverse( operation:operation, parameters: parameters, level: level+1, childIndex: index, preTraverseFunction:preTraverseFunction, postTraverseFunction:postTraverseFunction)
+            var childContext = SVGTraverseContext(context:context)
+            childContext.level = childContext.level + 1
+            childContext.childIndex = index
+            let _  = child.traverse( operation:operation, parameters: parameters, context: childContext, preTraverseFunction:preTraverseFunction, postTraverseFunction:postTraverseFunction)
         }
         
         if let postTraverseFunction = postTraverseFunction {
-            postTraverseFunction(self, operation, parameters, level, childIndex)
+            postTraverseFunction(self, operation, parameters, context)
         }
         
         return (true, nil)
     }
     
-    //will parse the tree and set up identifier
-    private func updateIdentifiers() {
-        let _ = traverse (operation:.balance)
-    }
+        //Transactions
     
     
-    private func preTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) -> Void{
-        var nodeString = String(repeating: " ", count: level)
+        //Predefined function
+    fileprivate func preTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) -> Void{
+        var nodeString = String(repeating: " ", count: context.level)
         nodeString  = nodeString + "+ " + "<\(type(of: node)):\((node.value! as SVGElement).tag.name)>"
-        nodeString  = nodeString + " Level: " + String(level) + ", Index: " + String(childIndex) + "\n"
+        nodeString  = nodeString + " Level: " + String(context.level) + ", Index: " + String(context.childIndex) + "\n"
         print(nodeString)
     }
     
-    private func postTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+    fileprivate func postTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
     
     }
     
-    private func preTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) -> Void{
+    fileprivate func preTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?, context:SVGTraverseContext) {
         
     }
     
-    private func postTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+    fileprivate func postTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?, context:SVGTraverseContext) {
         
     }
     
-    private func preTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+    fileprivate func preTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
+        print("== preTraverseBalance")
+        if let parent = node.parent {
+            print("  Parent " + parent.treeIdentifier)
+            print("  Index " + String(context.childIndex))
+            node.treeIdentifier = parent.treeIdentifier + String(context.childIndex)
+            print("  Now " + node.treeIdentifier)
+        }
+    }
+    
+    fileprivate func postTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
         
     }
     
-    private func postTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+    fileprivate func preTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
         
     }
     
-    private func preTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
-        
-    }
-    
-    private func postTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  level:Int, childIndex:Int) {
+    fileprivate func postTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
         
     }
 }

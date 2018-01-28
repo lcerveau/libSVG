@@ -33,7 +33,7 @@ class libSVGTests: XCTestCase {
         print("== LOADING:" + testFilePath)
         let svg = SVG(path:testFilePath, options:[.verboseActions])
         svg.dump()
-        
+
         guard let destination:SVGRenderDestination = SVGRenderDestination(destination:outFilePath) else { XCTAssert(false); return}
         svg.addRenderDestination(destination: destination)        
         svg.renderToDestination(destinationUUID: destination.uuid)
