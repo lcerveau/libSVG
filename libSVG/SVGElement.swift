@@ -26,15 +26,15 @@ class SVGElement:SVGTagInstance {
         self.attributes![key] = value
     }
     
-        //Main instance does nothing
-    func render(context:inout CGContext?, attributes:[String:Any]?) {
+    func render(mode:String, parameters: inout [String:Any]?, attributes:[String:String]?){
         
     }
     
-    func print(context:inout CGContext?, attributes:[String:Any]?){
+    func print(mode:String, parameters: inout [String:Any]?, attributes:[String:String]?){
         
     }
-    func export(context:inout CGContext?, attributes:[String:Any]?){
-        
+    
+    func export(mode:String, parameters:inout [String:Any]?, attributes:[String:String]?){
+    
     }
 }

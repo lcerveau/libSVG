@@ -23,12 +23,12 @@ class libSVGTests: XCTestCase {
         super.tearDown()
     }
     
-    func testLoadSVGFile() {
+    func testLoadAndRenderSVGFile() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
         let testFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../TestFiles/Death.svg").standardizedFileURL.path
-        let outFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../Result/testLoad.svg").standardizedFileURL.path
+        let outFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../Result/testLoad.png").standardizedFileURL.path
 
         print("== LOADING:" + testFilePath)
         let svg = SVG(path:testFilePath, options:[.verboseActions])

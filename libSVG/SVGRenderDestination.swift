@@ -11,8 +11,10 @@ import ImageIO
 
 #if os(macOS)
 import AppKit
+import CoreServices
 #elseif os(iOS)
 import UIKit
+import MobileCoreServices
 #endif
 
 enum SVGRenderDestinationType{
@@ -24,21 +26,27 @@ class SVGRenderDestination
     var type:SVGRenderDestinationType
     var uuid:String
     var destination:Any?
+    var uttype:String?
         //File or URL
     var imageIODestination:CGImageDestination?
     
     init?(destination:Any? = nil, attributes:[String:Any]? = nil) {
         self.uuid = UUID().uuidString
         
-        if let _ = destination as? String {
+        if let destinationString = destination as? String {
             self.destination = destination
             self.type = .file
             do {
                 try FileManager.default.createDirectory(at: URL(fileURLWithPath: self.destination as! String).deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
             } catch {
-                
+                return nil
             }
-            self.imageIODestination = CGImageDestinationCreateWithURL(URL(fileURLWithPath: self.destination as! String) as CFURL, kUTTypePNG, 1, nil)
+            
+            let destinationURL = URL(fileURLWithPath: destinationString)
+            print(destinationURL.pathExtension as CFString)
+           // let destinationUTI:CFString = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, destinationURL.pathExtension as CFString, nil) as! CFString
+            
+            self.imageIODestination = CGImageDestinationCreateWithURL(URL(fileURLWithPath: destinationString) as CFURL, kUTTypePNG, 1, nil)
         } else if let _ = destination as? URL {
             self.destination = destination
             self.imageIODestination = CGImageDestinationCreateWithURL(self.destination as! CFURL, kUTTypePNG, 1, nil)

@@ -6,16 +6,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "libSVG/SVGNode.swift"
-            timestampString = "538851370.142259"
+            filePath = "libSVG/SVGRendererDestination.swift"
+            timestampString = "538864069.5594209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
-            landmarkName = "preTraverseBalance(node:operation:parameters:context:)"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "init(destination:attributes:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Support/SVGTagSVG.swift"
+            timestampString = "538864372.997435"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "render(mode:parameters:attributes:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

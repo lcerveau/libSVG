@@ -187,11 +187,8 @@ class SVG {
         let nodeName = String(cString:node.name)
         
             //create the needed lib entities
-        guard let tmpTag = SVGTag(name: nodeName) else {
-            return
-        }
-        
-        let tmpElement = SVGElement(tag:tmpTag)
+        //guard let tmpTag = SVGTag(name: nodeName) else { print("Unknown tag:" + nodeName); return }
+        guard let tmpElement = SVGTag.createElement(name:nodeName) else { return }
         let tmpNode = SVGNode(value: tmpElement)
         
         var nodeProperties = [String:String]()

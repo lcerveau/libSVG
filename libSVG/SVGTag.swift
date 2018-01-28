@@ -143,11 +143,23 @@ class SVGTag {
 //        "view":[],
 //        "vkern":[]
     ]
+    
+    class func createElement(name:String, attributes:[String:String]? = nil) -> SVGElement? {
+        guard let tmpTag = SVGTag(name: name) else { print("Unknown tag:" + name); return nil }
+    
+        switch tmpTag.name {
+        case "svg":
+            return SVGTagSVG(tag:tmpTag)
+        default:
+            print("CLASS NEED TO BE CREATED:" + tmpTag.name);
+            return SVGElement(tag:tmpTag)
+        }
+    }
 }
 
 
 protocol SVGTagInstance {
-    func render(context:inout CGContext?, attributes:[String:Any]?);
-    func print(context:inout CGContext?, attributes:[String:Any]?);
-    func export(context:inout CGContext?, attributes:[String:Any]?);
+    func render(mode:String, parameters: inout [String:Any]?, attributes:[String:String]?);
+    func print(mode:String, parameters:inout [String:Any]?, attributes:[String:String]?);
+    func export(mode:String, parameters:inout [String:Any]?, attributes:[String:String]?);
 }

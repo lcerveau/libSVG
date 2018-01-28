@@ -30,8 +30,11 @@
 		2A7E8DB61E5A55A50050AEEC /* SVGTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7E8DB51E5A55A50050AEEC /* SVGTag.swift */; };
 		2A7E8DB81E5A685B0050AEEC /* SVGCSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7E8DB71E5A685B0050AEEC /* SVGCSSParser.swift */; };
 		2A802788201D0766004157CD /* libSVGNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A802787201D0766004157CD /* libSVGNodeTests.swift */; };
-		2A96C7E21FA9480100ED94C1 /* SVGTagSVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A96C7E11FA9480100ED94C1 /* SVGTagSVG.swift */; };
-		2AAEAFFD1EE490E400693572 /* SVGRendererDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEAFFC1EE490E400693572 /* SVGRendererDestination.swift */; };
+		2A80278C201E53C0004157CD /* SVGTagPATH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A802789201E53C0004157CD /* SVGTagPATH.swift */; };
+		2A80278E201E53C0004157CD /* SVGTagTEXT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A80278A201E53C0004157CD /* SVGTagTEXT.swift */; };
+		2A802790201E53C0004157CD /* SVGTagSVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A80278B201E53C0004157CD /* SVGTagSVG.swift */; };
+		2A802793201E53F9004157CD /* SVGTagG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A802792201E53F8004157CD /* SVGTagG.swift */; };
+		2AAEAFFD1EE490E400693572 /* SVGRenderDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEAFFC1EE490E400693572 /* SVGRenderDestination.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,9 +73,12 @@
 		2A7E8DB51E5A55A50050AEEC /* SVGTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTag.swift; sourceTree = "<group>"; };
 		2A7E8DB71E5A685B0050AEEC /* SVGCSSParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGCSSParser.swift; sourceTree = "<group>"; };
 		2A802787201D0766004157CD /* libSVGNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libSVGNodeTests.swift; sourceTree = "<group>"; };
-		2A96C7E11FA9480100ED94C1 /* SVGTagSVG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGTagSVG.swift; sourceTree = "<group>"; };
+		2A802789201E53C0004157CD /* SVGTagPATH.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagPATH.swift; sourceTree = "<group>"; };
+		2A80278A201E53C0004157CD /* SVGTagTEXT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagTEXT.swift; sourceTree = "<group>"; };
+		2A80278B201E53C0004157CD /* SVGTagSVG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagSVG.swift; sourceTree = "<group>"; };
+		2A802792201E53F8004157CD /* SVGTagG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagG.swift; sourceTree = "<group>"; };
 		2A9B02B41E3E728300AF4FAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		2AAEAFFC1EE490E400693572 /* SVGRendererDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRendererDestination.swift; sourceTree = "<group>"; };
+		2AAEAFFC1EE490E400693572 /* SVGRenderDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRenderDestination.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,7 +139,7 @@
 				2A5675201E58B93A0006E4EA /* SVGNode.swift */,
 				2A7E8DB31E5A43E80050AEEC /* SVGElement.swift */,
 				2A65F35B1EA0F7DD003D1BD2 /* SVGRenderer.swift */,
-				2AAEAFFC1EE490E400693572 /* SVGRendererDestination.swift */,
+				2AAEAFFC1EE490E400693572 /* SVGRenderDestination.swift */,
 				2A7E8DB51E5A55A50050AEEC /* SVGTag.swift */,
 				2A7E8DB71E5A685B0050AEEC /* SVGCSSParser.swift */,
 				2A6FA3211DCB420900B62C82 /* Info.plist */,
@@ -173,7 +179,10 @@
 		2A96C7E01FA947B900ED94C1 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				2A96C7E11FA9480100ED94C1 /* SVGTagSVG.swift */,
+				2A802789201E53C0004157CD /* SVGTagPATH.swift */,
+				2A80278B201E53C0004157CD /* SVGTagSVG.swift */,
+				2A80278A201E53C0004157CD /* SVGTagTEXT.swift */,
+				2A802792201E53F8004157CD /* SVGTagG.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -306,14 +315,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A80278E201E53C0004157CD /* SVGTagTEXT.swift in Sources */,
 				2A7E8DB61E5A55A50050AEEC /* SVGTag.swift in Sources */,
+				2A80278C201E53C0004157CD /* SVGTagPATH.swift in Sources */,
+				2A802793201E53F9004157CD /* SVGTagG.swift in Sources */,
 				2A6FA3381DCBBA7B00B62C82 /* SVG.swift in Sources */,
-				2AAEAFFD1EE490E400693572 /* SVGRendererDestination.swift in Sources */,
+				2AAEAFFD1EE490E400693572 /* SVGRenderDestination.swift in Sources */,
 				2A5675211E58B93A0006E4EA /* SVGNode.swift in Sources */,
 				2A7E8DB81E5A685B0050AEEC /* SVGCSSParser.swift in Sources */,
 				2A65F35C1EA0F7DD003D1BD2 /* SVGRenderer.swift in Sources */,
-				2A96C7E21FA9480100ED94C1 /* SVGTagSVG.swift in Sources */,
 				2A7E8DB41E5A43E80050AEEC /* SVGElement.swift in Sources */,
+				2A802790201E53C0004157CD /* SVGTagSVG.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,8 +8,8 @@
 
 import Foundation
 
-typealias preTraverseNodeFunction = (SVGNode, SVGNodeOperation , [String:Any]?, SVGTraverseContext) -> Void
-typealias postTraverseNodeFunction = (SVGNode, SVGNodeOperation , [String:Any]?, SVGTraverseContext) -> Void
+typealias preTraverseNodeFunction = (SVGNode, SVGNodeOperation , inout [String:Any]?, SVGTraverseContext) -> Void
+typealias postTraverseNodeFunction = (SVGNode, SVGNodeOperation , inout [String:Any]?, SVGTraverseContext) -> Void
 
 enum SVGNodeOperation:CustomStringConvertible {
     case render, export, print, balance, none, any
@@ -184,19 +184,21 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     //Tree iterator
     func traverse(operation:SVGNodeOperation = .none, parameters:[String:Any]? = nil, context:SVGTraverseContext, preTraverseFunction:preTraverseNodeFunction? = nil, postTraverseFunction:postTraverseNodeFunction? = nil ) -> (Bool, Any?) {
         
+        var traverseParameters = parameters
+        
         if let preTraverseFunction = preTraverseFunction {
-            preTraverseFunction(self, operation, parameters, context)
+            preTraverseFunction(self, operation, &traverseParameters, context)
         }
         
         for (index, child) in children.enumerated() {
             var childContext = SVGTraverseContext(context:context)
             childContext.level = childContext.level + 1
             childContext.childIndex = index
-            let _  = child.traverse( operation:operation, parameters: parameters, context: childContext, preTraverseFunction:preTraverseFunction, postTraverseFunction:postTraverseFunction)
+            let _  = child.traverse( operation:operation, parameters: traverseParameters, context: childContext, preTraverseFunction:preTraverseFunction, postTraverseFunction:postTraverseFunction)
         }
         
         if let postTraverseFunction = postTraverseFunction {
-            postTraverseFunction(self, operation, parameters, context)
+            postTraverseFunction(self, operation, &traverseParameters, context)
         }
         
         return (true, nil)
@@ -206,44 +208,47 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     
     
         //Predefined function
-    fileprivate func preTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) -> Void{
+    fileprivate func preTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:inout [String:Any]?,  context:SVGTraverseContext) -> Void{
         var nodeString = String(repeating: " ", count: context.level)
         nodeString  = nodeString + "+ " + "<\(type(of: node)):\((node.value! as SVGElement).tag.name)>"
         nodeString  = nodeString + " Level: " + String(context.level) + ", Index: " + String(context.childIndex) + "\n"
         print(nodeString)
     }
     
-    fileprivate func postTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
+    fileprivate func postTraversePrint(node:SVGNode, operation:SVGNodeOperation, parameters:inout [String:Any]?,  context:SVGTraverseContext) {
     
     }
     
-    fileprivate func preTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?, context:SVGTraverseContext) {
+    fileprivate func preTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:inout [String:Any]?, context:SVGTraverseContext) {
         
     }
     
-    fileprivate func postTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?, context:SVGTraverseContext) {
+    fileprivate func postTraverseExport(node:SVGNode, operation:SVGNodeOperation, parameters:inout [String:Any]?, context:SVGTraverseContext) {
         
     }
     
-    fileprivate func preTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
-        print("== preTraverseBalance")
+    fileprivate func preTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:inout [String:Any]?,  context:SVGTraverseContext) {
         if let parent = node.parent {
-            print("  Parent " + parent.treeIdentifier)
-            print("  Index " + String(context.childIndex))
             node.treeIdentifier = parent.treeIdentifier + String(context.childIndex)
-            print("  Now " + node.treeIdentifier)
         }
     }
     
-    fileprivate func postTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
+    fileprivate func postTraverseBalance(node:SVGNode, operation:SVGNodeOperation, parameters:inout [String:Any]?,  context:SVGTraverseContext) {
         
     }
     
-    fileprivate func preTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
-        
+    fileprivate func preTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters: inout [String:Any]?,  context:SVGTraverseContext) {
+        print("== preTraverseRender")
+
+        if let element = node.value {
+            element.render(mode:"pre", parameters: &parameters, attributes:element.attributes)
+        }
     }
     
-    fileprivate func postTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters:[String:Any]?,  context:SVGTraverseContext) {
-        
+    fileprivate func postTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters: inout [String:Any]?,  context:SVGTraverseContext) {
+        print("== postTraverseRender")
+        if let element = node.value {
+            element.render(mode:"post", parameters:&parameters, attributes:element.attributes)
+        }
     }
 }
