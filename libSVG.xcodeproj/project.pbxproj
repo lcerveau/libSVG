@@ -35,6 +35,7 @@
 		2A802790201E53C0004157CD /* SVGTagSVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A80278B201E53C0004157CD /* SVGTagSVG.swift */; };
 		2A802793201E53F9004157CD /* SVGTagG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A802792201E53F8004157CD /* SVGTagG.swift */; };
 		2AAEAFFD1EE490E400693572 /* SVGRenderDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEAFFC1EE490E400693572 /* SVGRenderDestination.swift */; };
+		2ACB842E2026535D00A9A0C4 /* SVGTagRECT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB842D2026535D00A9A0C4 /* SVGTagRECT.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		2A802792201E53F8004157CD /* SVGTagG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagG.swift; sourceTree = "<group>"; };
 		2A9B02B41E3E728300AF4FAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		2AAEAFFC1EE490E400693572 /* SVGRenderDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRenderDestination.swift; sourceTree = "<group>"; };
+		2ACB842D2026535D00A9A0C4 /* SVGTagRECT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagRECT.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,8 +181,9 @@
 		2A96C7E01FA947B900ED94C1 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				2A802789201E53C0004157CD /* SVGTagPATH.swift */,
 				2A80278B201E53C0004157CD /* SVGTagSVG.swift */,
+				2A802789201E53C0004157CD /* SVGTagPATH.swift */,
+				2ACB842D2026535D00A9A0C4 /* SVGTagRECT.swift */,
 				2A80278A201E53C0004157CD /* SVGTagTEXT.swift */,
 				2A802792201E53F8004157CD /* SVGTagG.swift */,
 			);
@@ -324,6 +327,7 @@
 				2A5675211E58B93A0006E4EA /* SVGNode.swift in Sources */,
 				2A7E8DB81E5A685B0050AEEC /* SVGCSSParser.swift in Sources */,
 				2A65F35C1EA0F7DD003D1BD2 /* SVGRenderer.swift in Sources */,
+				2ACB842E2026535D00A9A0C4 /* SVGTagRECT.swift in Sources */,
 				2A7E8DB41E5A43E80050AEEC /* SVGElement.swift in Sources */,
 				2A802790201E53C0004157CD /* SVGTagSVG.swift in Sources */,
 			);

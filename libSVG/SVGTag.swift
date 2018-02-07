@@ -74,6 +74,7 @@ class SVGTag {
 //        "clipPath":[":TagCategory."::TagCategory.shape],
 //        "color-profile":[":TagCategory."::TagCategory.shape],
 //        "cursor":[":TagCategory."::TagCategory.shape],
+        "comment":[":TagCategory.":TagCategory.textContent],
         "defs":["category":TagCategory.container],
         "desc":["category":TagCategory.descriptive],
         "ellipse":["category":TagCategory.shape],
@@ -150,6 +151,14 @@ class SVGTag {
         switch tmpTag.name {
         case "svg":
             return SVGTagSVG(tag:tmpTag)
+        case "g":
+            return SVGTagG(tag:tmpTag)
+        case "path":
+            return SVGTagPATH(tag:tmpTag)
+        case "rect":
+            return SVGTagRECT(tag:tmpTag)
+        case "text":
+            return SVGTagTEXT(tag:tmpTag)
         default:
             print("CLASS NEED TO BE CREATED:" + tmpTag.name);
             return SVGElement(tag:tmpTag)

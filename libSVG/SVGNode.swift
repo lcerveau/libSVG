@@ -24,18 +24,6 @@ enum SVGNodeOperation:CustomStringConvertible {
             case .any: return "any"             //Do Anything
         }
     }
-    
-//    public var preNodeOperationFunction:preTraverseNodeFunction? {
-//        switch self {
-//            case .render: return SVGNode.preTraverseRender?
-//            case .export: return SVGNode.preTraverseExport?
-//            case .print: return SVGNode.preTraversePrint?
-//            case .balance: return SVGNode.preTraverseBalance?
-//            case .none: return nil
-//            case .any: return nil
-//        }
-//    }
-    
 }
 
 struct SVGTraverseContext
@@ -238,7 +226,7 @@ class SVGNode : CustomStringConvertible,CustomDebugStringConvertible {
     }
     
     fileprivate func preTraverseRender(node:SVGNode, operation:SVGNodeOperation, parameters: inout [String:Any]?,  context:SVGTraverseContext) {
-        print("== preTraverseRender")
+        print("== preTraverseRender" + node.value!.tag.name)
 
         if let element = node.value {
             element.render(mode:"pre", parameters: &parameters, attributes:element.attributes)

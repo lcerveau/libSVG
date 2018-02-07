@@ -16,6 +16,8 @@ class SVGTagSVG:SVGElement {
         Swift.print("render SVG")
         //guard let
         var x = 0, y = 0, w = 0, h = 0
+        w = Int(attributes!["width"] ?? "0")!
+        h = Int(attributes!["height"] ?? "0")!
         
         if let viewBoxString =  attributes!["viewBox"] {
             let portComponents = viewBoxString.split(separator:" ")
@@ -25,11 +27,18 @@ class SVGTagSVG:SVGElement {
             h = Int(portComponents[3])!
         }
         
+        
+        
         if mode == "pre" {
                 //this is true only in case of file
             let colorSpace:CGColorSpace = CGColorSpaceCreateDeviceRGB()
             let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
             let cgContext = CGContext(data: nil, width: w, height: h, bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
+            let flipTransform = __CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0, CGFloat(h))
+            cgContext?.concatenate(flipTransform)
+//            CGAffineTransform flipVertical = CGAffineTransformMake(
+//                1, 0, 0, -1, 0, imageContextHeight
+//            );
             parameters!["CGContext"] = cgContext
         } else if mode == "post" {
             let cgContext = (parameters!["CGContext"]) as! CGContext

@@ -11,5 +11,12 @@ import Foundation
 import ImageIO
 
 class SVGTagG:SVGElement {
-    
+    override func render(mode:String, parameters:inout [String:Any]?, attributes:[String:String]?) {
+        Swift.print("render Group")
+        if mode == "pre" {
+            
+        } else if mode == "post" {
+            
+        }
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  SVGTagTEXT.swift
+//  SVGTagSVG.swift
 //  libSVG
 //
 //  Created by Laurent Cerveau on 11/01/2017.
@@ -8,16 +8,16 @@
 
 import CoreGraphics
 import Foundation
-import ImageIO
 
-class SVGTagTEXT:SVGElement {
+class SVGTagPATH:SVGElement {
     override func render(mode:String, parameters:inout [String:Any]?, attributes:[String:String]?) {
-        Swift.print("render TEXT")
+        Swift.print("render PATH")
         if mode == "pre" {
-        
+            if let attributes = attributes, let pathString = attributes["d"] {
+                Swift.print(pathString)
+            }
         } else if mode == "post" {
-        
+            
         }
     }
 }
-

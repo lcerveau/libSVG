@@ -188,7 +188,10 @@ class SVG {
         
             //create the needed lib entities
         //guard let tmpTag = SVGTag(name: nodeName) else { print("Unknown tag:" + nodeName); return }
-        guard let tmpElement = SVGTag.createElement(name:nodeName) else { return }
+        guard let tmpElement = SVGTag.createElement(name:nodeName) else {
+            return
+            
+        }
         let tmpNode = SVGNode(value: tmpElement)
         
         var nodeProperties = [String:String]()
@@ -210,7 +213,7 @@ class SVG {
                 } while true
             }
 
-        } else if node.type == XML_TEXT_NODE {
+        } else if node.type == XML_TEXT_NODE || node.type == XML_COMMENT_NODE {
             if let content = node.content {
                 let contentStr = String(cString:content).trimmingCharacters(in: .whitespacesAndNewlines)
                 if contentStr.count != 0 {
@@ -218,8 +221,7 @@ class SVG {
                     tmpElement.content = contentStr
                 }
             }
-        }
-        
+        }        
         //
         //Add the parent, if not set it
         if doConsiderXMLNode  {
