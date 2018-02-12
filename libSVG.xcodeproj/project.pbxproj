@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A35979920310629002AD827 /* SVGTagELLIPSIS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A35979720310629002AD827 /* SVGTagELLIPSIS.swift */; };
+		2A35979A20310629002AD827 /* SVGTagCIRCLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A35979820310629002AD827 /* SVGTagCIRCLE.swift */; };
+		2A35979E20310635002AD827 /* SVGTaPOLYLINE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A35979B20310635002AD827 /* SVGTaPOLYLINE.swift */; };
+		2A35979F20310635002AD827 /* SVGTagLINE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A35979C20310635002AD827 /* SVGTagLINE.swift */; };
+		2A3597A020310635002AD827 /* SVGTaPOLYGONE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A35979D20310635002AD827 /* SVGTaPOLYGONE.swift */; };
 		2A56751E1E58A1E70006E4EA /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A56751D1E58A1E60006E4EA /* libxml2.2.tbd */; };
 		2A56751F1E58B74C0006E4EA /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A56751D1E58A1E60006E4EA /* libxml2.2.tbd */; };
 		2A5675211E58B93A0006E4EA /* SVGNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5675201E58B93A0006E4EA /* SVGNode.swift */; };
@@ -49,6 +54,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A35979720310629002AD827 /* SVGTagELLIPSIS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagELLIPSIS.swift; sourceTree = "<group>"; };
+		2A35979820310629002AD827 /* SVGTagCIRCLE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagCIRCLE.swift; sourceTree = "<group>"; };
+		2A35979B20310635002AD827 /* SVGTaPOLYLINE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTaPOLYLINE.swift; sourceTree = "<group>"; };
+		2A35979C20310635002AD827 /* SVGTagLINE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTagLINE.swift; sourceTree = "<group>"; };
+		2A35979D20310635002AD827 /* SVGTaPOLYGONE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGTaPOLYGONE.swift; sourceTree = "<group>"; };
 		2A56751D1E58A1E60006E4EA /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		2A5675201E58B93A0006E4EA /* SVGNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGNode.swift; sourceTree = "<group>"; };
 		2A65F35B1EA0F7DD003D1BD2 /* SVGRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRenderer.swift; sourceTree = "<group>"; };
@@ -181,7 +191,12 @@
 		2A96C7E01FA947B900ED94C1 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				2A35979820310629002AD827 /* SVGTagCIRCLE.swift */,
+				2A35979720310629002AD827 /* SVGTagELLIPSIS.swift */,
 				2A80278B201E53C0004157CD /* SVGTagSVG.swift */,
+				2A35979C20310635002AD827 /* SVGTagLINE.swift */,
+				2A35979D20310635002AD827 /* SVGTaPOLYGONE.swift */,
+				2A35979B20310635002AD827 /* SVGTaPOLYLINE.swift */,
 				2A802789201E53C0004157CD /* SVGTagPATH.swift */,
 				2ACB842D2026535D00A9A0C4 /* SVGTagRECT.swift */,
 				2A80278A201E53C0004157CD /* SVGTagTEXT.swift */,
@@ -262,12 +277,13 @@
 					2A6FA31C1DCB420900B62C82 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = E57NY67VPR;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					2A6FA3251DCB420900B62C82 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = E57NY67VPR;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -325,11 +341,16 @@
 				2A6FA3381DCBBA7B00B62C82 /* SVG.swift in Sources */,
 				2AAEAFFD1EE490E400693572 /* SVGRenderDestination.swift in Sources */,
 				2A5675211E58B93A0006E4EA /* SVGNode.swift in Sources */,
+				2A35979F20310635002AD827 /* SVGTagLINE.swift in Sources */,
+				2A35979E20310635002AD827 /* SVGTaPOLYLINE.swift in Sources */,
 				2A7E8DB81E5A685B0050AEEC /* SVGCSSParser.swift in Sources */,
 				2A65F35C1EA0F7DD003D1BD2 /* SVGRenderer.swift in Sources */,
 				2ACB842E2026535D00A9A0C4 /* SVGTagRECT.swift in Sources */,
+				2A3597A020310635002AD827 /* SVGTaPOLYGONE.swift in Sources */,
 				2A7E8DB41E5A43E80050AEEC /* SVGElement.swift in Sources */,
 				2A802790201E53C0004157CD /* SVGTagSVG.swift in Sources */,
+				2A35979920310629002AD827 /* SVGTagELLIPSIS.swift in Sources */,
+				2A35979A20310629002AD827 /* SVGTagCIRCLE.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,7 +501,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/ThirdParties/clibxml/**";
 			};
 			name = Debug;
@@ -508,7 +530,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mmyneta.libSVG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/ThirdParties/clibxml/**";
 			};
 			name = Release;
@@ -524,7 +547,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mmyneta.libSVGTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -539,7 +563,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mmyneta.libSVGTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

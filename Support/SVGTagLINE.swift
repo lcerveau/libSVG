@@ -9,15 +9,11 @@
 import CoreGraphics
 import Foundation
 
-class SVGTagPATH:SVGElement {
+class SVGTagLINE:SVGElement {
     override func render(mode:String, parameters:inout [String:Any]?, attributes:[String:String]?) {
-        Swift.print("render PATH")
-        if mode == "pre" {
-            if let attributes = attributes, let pathString = attributes["d"] {
-                Swift.print(pathString)
-            }
-        } else if mode == "post" {
-            
-        }
+        Swift.print("render POLYLINE")
+        guard let parameters = parameters, let cgContext = (parameters["CGContext"] as! CGContext?) else {return}
+        guard let attributes = attributes else { return }
+        guard (mode == "pre") else { return }
     }
 }

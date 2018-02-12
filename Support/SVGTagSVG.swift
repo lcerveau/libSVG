@@ -9,7 +9,6 @@
 import CoreGraphics
 import Foundation
 import ImageIO
-import libSVG
 
 class SVGTagSVG:SVGElement {
     override func render(mode:String, parameters:inout [String:Any]?, attributes:[String:String]?) {

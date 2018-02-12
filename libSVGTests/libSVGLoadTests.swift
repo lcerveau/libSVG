@@ -29,7 +29,7 @@ class libSVGTests: XCTestCase {
         
         let fileName = "Death"
         let testFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../TestFiles/" + fileName + ".svg").standardizedFileURL.path
-        let outFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../Result/testLoad-D.png").standardizedFileURL.path
+        let outFilePath = URL(fileURLWithPath: #file).appendingPathComponent("../Result/testLoad-" + fileName + "png").standardizedFileURL.path
 
         print("== LOADING:" + testFilePath)
         let svg = SVG(path:testFilePath, options:[.verboseActions])
